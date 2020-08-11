@@ -1,0 +1,43 @@
+<div class="jumbotron topPanel">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="/static/img/mm.png" alt="" height="120" width="120">
+        </div>
+        <div class="col-md-9" style="border-radius: 15px; border-style: solid;" >
+            <h1 class=""><b>Mind Movement</b></h1>
+            <p class="lead">Improve your mind with fun little brain games at Mind Movment!</p>
+
+        </div>
+    </div>
+
+
+</div>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+    <!-- Brand -->
+    <a class="navbar-brand" href="{{ url_for('main') }}">Home</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class=" btn btn-primary customButton" href="{{ url_for('game1') }}">Basic Operations</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-primary customButton" href="{{ url_for('game2') }}">Chars Memory</a>
+            </li>
+            <!--
+            <li class="nav-item">
+                <a class="btn btn-primary customButton" href="#">Game3</a>
+            </li>
+            <li class="nav-item">
+                <a class="btn btn-primary customButton" href="#">Game4</a>
+            </li>-->
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <title>Mind Movement</title>
+</head>
+
+<body>
+    <div class="back">
+        {% include 'header.html' %}
+
+        <div class="jumbotron container" style="margin-top: 10px; margin-bottom: 10px;">
+            <h3>Basic Operations Game</h3>
+            <hr>
+
+
+            <form id="enterForm">
+                <div id="optionPart">
+                    <!--
+                    <p>Enter an option:</p>
+                    <input type="radio" id="add" name="operation" value="+" checked>
+                    <label for="add">Addition (+)</label><br>
+                    <input type="radio" id="minus" name="operation" value="-">
+                    <label for="minus">Subtraction (-)</label><br>
+                    <input type="submit" value="Submit">-->
+
+                </div>
+                <div id="mainContent">
+                </div>
+                <!--
+                Test stuff here.
+                <div>
+                    <h1 class="equationField"> 5 + 5= </h1>
+                    <input name="enterFieldName" class="entryFieldClass" required="" >
+                    <hr>
+                </div>
+            -->
+            </form>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="/static/js/logic1.js"></script>
+</body>
+
+</html>
