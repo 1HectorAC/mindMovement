@@ -13,3 +13,7 @@ def game1():
 @app.route('/game/game2')
 def game2():
     return render_template('game2.html')
+
+@app.route('/game/game3')
+def game3():
+    return render_template('game3.html')
