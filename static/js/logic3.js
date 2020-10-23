@@ -18,6 +18,7 @@ $("form").submit(function (event) {
         $(".MainContent").append("<p>Add color display here.</p>");
         $(".MainContent").append("<p>Up: red<br>left: blue<br>down:green<br>right: yellow</p>");
 
+        SetupDirDisplay();
         $(".MainContent").append("<input type='submit' value='Next'>");
         currentState = GAMESTATE.PLAY;
     }
@@ -90,4 +91,32 @@ function CheckColor(num, cVar){
 
     // Set new value for the color variable.
     NewColor(cVar);
+}
+
+// Setup the display for directional color association.
+function SetupDirDisplay(){
+    // Setup rows for each direction to display.
+    var row1 = $('<div class="row"></div>');
+    var row2 = $('<div class="row"></div>');
+    var row3 = $('<div class="row"></div>');
+
+    // The first row. (top)
+    var c1 = $('<div class="col-md-3 offset-md-3", style= "background-color: red; "><p>Top</p></div>');
+    row1.append(c1);
+
+    // The second row. (left, right)
+    var c2 = $('<div class="col-md-3", style= "background-color: blue;"><p>Left</p></div>');
+    var c2_2 = $('<div class="col-md-3 offset-md-3", style= "background-color: yellow;"><p>Right</p></div>');
+    row2.append(c2);
+    row2.append(c2_2);
+
+    // The bottom row. (bottom)
+    var c3 = $('<div class="col-md-3 offset-md-3", style= "background-color: green; "><p>Down</p></div>');
+    row3.append(c3);
+
+    // Add rows to page.
+    $(".MainContent").append(row1);
+    $(".MainContent").append(row2);
+    $(".MainContent").append(row3);
+
 }
