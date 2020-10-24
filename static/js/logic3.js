@@ -73,6 +73,7 @@ function NewColor(cVar){
 
     // Add color to screen.
     $(".MainContent").append("<p>" + COLOR_OPTIONS[cVar.color] + "</p>");
+    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[cVar.color]+'; width:100px; height:100px;"></div>');
 }
 
 // This function will check if the the first number matches the color value of the second variables and display results onto page.
