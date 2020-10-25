@@ -15,11 +15,13 @@ SetupStartMenu();
 
 $("form").submit(function (event) {
     if(currentState == GAMESTATE.START){
-        $('MainContent').empty();
+        $('.MainContent').empty();
         SetupStartMenu();
+
+        currentState = GAMESTATE.DIRECTIONS;
     }
     // Check if game is in state of displaying directions.
-    if(currentState == GAMESTATE.DIRECTIONS){
+    else if(currentState == GAMESTATE.DIRECTIONS){
         // Displaying direction here.
         $(".MainContent").empty();
         SetupDirDisplay();
@@ -141,7 +143,7 @@ function CheckColor(num, cVar){
 // Clear screen and add game over content to page.
 function EndGame(){
     // Change state. Note: will stop actions from keydown event listener.
-    currentState = GAMESTATE.DIRECTIONS;
+    currentState = GAMESTATE.START;
 
     // Clear screen.
     $(".MainContent").empty();
