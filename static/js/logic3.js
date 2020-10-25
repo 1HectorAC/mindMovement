@@ -42,27 +42,32 @@ function PlayGame(){
     let colorVar = {color: 0}
 
     document.addEventListener("keydown", event => {
-        switch(event.keyCode){
-            // Up key.
-            case 38:
-                CheckColor(0, colorVar);
-                break;
-            // Left key.
-            case 37:
-                CheckColor(1, colorVar);
-                break;
-            // Down key.
-            case 40:
-                CheckColor(2, colorVar);
-                break;
-            // Right key.
-            case 39:
-                CheckColor(3, colorVar);
-                break;
+        if(currentState == GAMESTATE.PLAY){
+            switch(event.keyCode){
+                // Up key.
+                case 38:
+                    CheckColor(0, colorVar);
+                    break;
+                // Left key.
+                case 37:
+                    CheckColor(1, colorVar);
+                    break;
+                // Down key.
+                case 40:
+                    CheckColor(2, colorVar);
+                    break;
+                // Right key.
+                case 39:
+                    CheckColor(3, colorVar);
+                    break;
+            }
         }
-    })
+    });
+
     NewColor(colorVar);
-    
+
+    //Call end of game in 10 seconds.
+    setTimeout(EndGame, 10000);
     
 }
 
@@ -119,5 +124,20 @@ function SetupDirDisplay(){
     $(".MainContent").append(row1);
     $(".MainContent").append(row2);
     $(".MainContent").append(row3);
+
+}
+
+// Clear screen and add game over content to page.
+function EndGame(){
+    //Change state. Note: will stop actions from keydown event listener.
+    currentState = GAMESTATE.DIRECTIONS;
+
+    // Clear screen.
+    $(".MainContent").empty();
+    
+    $(".MainContent").append("<h1>Game Over</h1>");
+    $(".MainContent").append("<input type='submit' value='Play Again'>");
+
+
 
 }
