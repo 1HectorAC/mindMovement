@@ -1,24 +1,29 @@
 // Manage the state of the game.
 const GAMESTATE = {
-    DIRECTIONS: 0,
-    PLAY: 1,
-    GAMEOVER: 2
+    START: 0,
+    DIRECTIONS: 1,
+    PLAY: 2,
+    GAMEOVER: 3
 };
 var currentState = GAMESTATE.DIRECTIONS;
 
 // Color Options that can be set for the game.
 const COLOR_OPTIONS = ["red", "blue", "green", "yellow"];
 
+//Call function to initially setup start menu.
+SetupStartMenu();
 
 $("form").submit(function (event) {
+    if(currentState == GAMESTATE.START){
+        $('MainContent').empty();
+        SetupStartMenu();
+    }
     // Check if game is in state of displaying directions.
     if(currentState == GAMESTATE.DIRECTIONS){
         // Displaying direction here.
         $(".MainContent").empty();
-        $(".MainContent").append("<p>Add color display here.</p>");
-        $(".MainContent").append("<p>Up: red<br>left: blue<br>down:green<br>right: yellow</p>");
-
         SetupDirDisplay();
+
         $(".MainContent").append("<input type='submit' value='Next'>");
         currentState = GAMESTATE.PLAY;
     }
@@ -35,6 +40,40 @@ $("form").submit(function (event) {
 
     event.preventDefault();
 });
+
+//Setup the display for the start menu.
+function SetupStartMenu(){
+    $(".MainContent").append('<p>Instructions: Colors will appear in a block. Your job is the hitthe right direction key(Up, Down, Left, Right) associated with the color which will be shown before hand.</p>');
+    $(".MainContent").append('<input type="submit" value="Play">');
+}
+
+// Setup the display for directional color association.
+function SetupDirDisplay(){
+    // Setup rows for each direction to display.
+    var row1 = $('<div class="row"></div>');
+    var row2 = $('<div class="row"></div>');
+    var row3 = $('<div class="row"></div>');
+
+    // The first row. (top)
+    var c1 = $('<div class="col-md-3 offset-md-3", style= "background-color: red; "><p>Top</p></div>');
+    row1.append(c1);
+
+    // The second row. (left, right)
+    var c2 = $('<div class="col-md-3", style= "background-color: blue;"><p>Left</p></div>');
+    var c2_2 = $('<div class="col-md-3 offset-md-3", style= "background-color: yellow;"><p>Right</p></div>');
+    row2.append(c2);
+    row2.append(c2_2);
+
+    // The bottom row. (bottom)
+    var c3 = $('<div class="col-md-3 offset-md-3", style= "background-color: green; "><p>Down</p></div>');
+    row3.append(c3);
+
+    // Add rows to page.
+    $(".MainContent").append(row1);
+    $(".MainContent").append(row2);
+    $(".MainContent").append(row3);
+
+}
 
 // This function will be called to start the game.
 function PlayGame(){
@@ -99,42 +138,14 @@ function CheckColor(num, cVar){
     NewColor(cVar);
 }
 
-// Setup the display for directional color association.
-function SetupDirDisplay(){
-    // Setup rows for each direction to display.
-    var row1 = $('<div class="row"></div>');
-    var row2 = $('<div class="row"></div>');
-    var row3 = $('<div class="row"></div>');
-
-    // The first row. (top)
-    var c1 = $('<div class="col-md-3 offset-md-3", style= "background-color: red; "><p>Top</p></div>');
-    row1.append(c1);
-
-    // The second row. (left, right)
-    var c2 = $('<div class="col-md-3", style= "background-color: blue;"><p>Left</p></div>');
-    var c2_2 = $('<div class="col-md-3 offset-md-3", style= "background-color: yellow;"><p>Right</p></div>');
-    row2.append(c2);
-    row2.append(c2_2);
-
-    // The bottom row. (bottom)
-    var c3 = $('<div class="col-md-3 offset-md-3", style= "background-color: green; "><p>Down</p></div>');
-    row3.append(c3);
-
-    // Add rows to page.
-    $(".MainContent").append(row1);
-    $(".MainContent").append(row2);
-    $(".MainContent").append(row3);
-
-}
-
 // Clear screen and add game over content to page.
 function EndGame(){
-    //Change state. Note: will stop actions from keydown event listener.
+    // Change state. Note: will stop actions from keydown event listener.
     currentState = GAMESTATE.DIRECTIONS;
 
     // Clear screen.
     $(".MainContent").empty();
-    
+
     $(".MainContent").append("<h1>Game Over</h1>");
     $(".MainContent").append("<input type='submit' value='Play Again'>");
 
