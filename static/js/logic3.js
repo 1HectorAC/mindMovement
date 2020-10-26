@@ -10,38 +10,77 @@ var currentState = GAMESTATE.DIRECTIONS;
 // Color Options that can be set for the game.
 const COLOR_OPTIONS = ["red", "blue", "green", "yellow"];
 
-//Call function to initially setup start menu.
-SetupStartMenu();
+// Variable needed for what color will appear on screen as a target.
+var colorVar = 0;
 
-$("form").submit(function (event) {
-    if(currentState == GAMESTATE.START){
-        $('.MainContent').empty();
-        SetupStartMenu();
+// Initialize the game.
+Initial();
 
-        currentState = GAMESTATE.DIRECTIONS;
-    }
-    // Check if game is in state of displaying directions.
-    else if(currentState == GAMESTATE.DIRECTIONS){
-        // Displaying direction here.
-        $(".MainContent").empty();
-        SetupDirDisplay();
+// Initialize the game and setup all key parts to start.
+function Initial(){
+    // Call function to initially setup start menu.
+    SetupStartMenu();
 
-        $(".MainContent").append("<input type='submit' value='Next'>");
-        currentState = GAMESTATE.PLAY;
-    }
-    // Check if game is in state of playing.
-    else if(currentState = GAMESTATE.PLAY){
-        $(".MainContent").empty();
-        //Start game.
-        PlayGame();
-    }
-    else{
-        // Maybe add end of game option here later.
-        //$(".MainContent").empty();
-    }
+    // Setup up input key part.
+    InputPart();
 
-    event.preventDefault();
-});
+    //Setup button control to affect state of game.
+    $("form").submit(function (event) {
+        if(currentState == GAMESTATE.START){
+            $('.MainContent').empty();
+            SetupStartMenu();
+
+            currentState = GAMESTATE.DIRECTIONS;
+        }
+        // Check if game is in state of displaying directions.
+        else if(currentState == GAMESTATE.DIRECTIONS){
+            // Displaying direction here.
+            $(".MainContent").empty();
+            SetupDirDisplay();
+
+            $(".MainContent").append("<input type='submit' value='Next'>");
+            currentState = GAMESTATE.PLAY;
+        }
+        // Check if game is in state of playing.
+        else if(currentState = GAMESTATE.PLAY){
+            $(".MainContent").empty();
+            //Start game.
+            PlayGame();
+        }
+        else{
+            // Maybe add end of game option here later.
+            //$(".MainContent").empty();
+        }
+
+        event.preventDefault();
+    });
+}
+
+//Setup up keydown control.
+function InputPart(){
+    document.addEventListener("keydown", event => {
+        if(currentState == GAMESTATE.PLAY){
+            switch(event.keyCode){
+                // Up key.
+                case 38:
+                    CheckColor(0);
+                    break;
+                // Left key.
+                case 37:
+                    CheckColor(1);
+                    break;
+                // Down key.
+                case 40:
+                    CheckColor(2);
+                    break;
+                // Right key.
+                case 39:
+                    CheckColor(3);
+                    break;
+            }
+        }
+    });
+}
 
 //Setup the display for the start menu.
 function SetupStartMenu(){
@@ -80,55 +119,33 @@ function SetupDirDisplay(){
 // This function will be called to start the game.
 function PlayGame(){
     // Variable that will be set as a random color option to check.
-    let colorVar = {color: 0}
+    colorVar = 0
 
-    document.addEventListener("keydown", event => {
-        if(currentState == GAMESTATE.PLAY){
-            switch(event.keyCode){
-                // Up key.
-                case 38:
-                    CheckColor(0, colorVar);
-                    break;
-                // Left key.
-                case 37:
-                    CheckColor(1, colorVar);
-                    break;
-                // Down key.
-                case 40:
-                    CheckColor(2, colorVar);
-                    break;
-                // Right key.
-                case 39:
-                    CheckColor(3, colorVar);
-                    break;
-            }
-        }
-    });
+    // Create new color to display.
+    NewColor();
 
-    NewColor(colorVar);
-
-    //Call end of game in 10 seconds.
+    // Call end of game in 10 seconds.
     setTimeout(EndGame, 10000);
     
 }
 
 // This function will set the colorVar to a new value and display to page.
-function NewColor(cVar){
+function NewColor(){
     // Set color to random number between 0 and 3.
-    cVar.color = Math.floor(Math.random() * 4);
+    colorVar = Math.floor(Math.random() * 4);
 
     // Add color to screen.
-    $(".MainContent").append("<p>" + COLOR_OPTIONS[cVar.color] + "</p>");
-    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[cVar.color]+'; width:100px; height:100px;"></div>');
+    $(".MainContent").append("<p>" + COLOR_OPTIONS[colorVar] + "</p>");
+    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:100px; height:100px;"></div>');
 }
 
 // This function will check if the the first number matches the color value of the second variables and display results onto page.
-function CheckColor(num, cVar){
+function CheckColor(num){
     // Clear screen.
     $(".MainContent").empty();
 
-    // Check if values match.
-    if(num == cVar.color){
+    // Check if values matches the colorVar.
+    if(num == colorVar){
         $(".MainContent").append("<p>Correct</p>");
     }
     else{
@@ -137,7 +154,7 @@ function CheckColor(num, cVar){
     }
 
     // Set new value for the color variable.
-    NewColor(cVar);
+    NewColor();
 }
 
 // Clear screen and add game over content to page.
