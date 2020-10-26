@@ -13,6 +13,9 @@ const COLOR_OPTIONS = ["red", "blue", "green", "yellow"];
 // Variable needed for what color will appear on screen as a target.
 var colorVar = 0;
 
+// Variable needed for keeping track of score.
+var score = 0;
+
 // Initialize the game.
 Initial();
 
@@ -121,6 +124,11 @@ function PlayGame(){
     // Variable that will be set as a random color option to check.
     colorVar = 0
 
+    // Set score to 0 at start of each game. This is needed for replaying.
+    score = 0;
+
+    $(".MainContent").append("<p>Score:" + score + "</p>");
+
     // Create new color to display.
     NewColor();
 
@@ -146,9 +154,14 @@ function CheckColor(num){
 
     // Check if values matches the colorVar.
     if(num == colorVar){
+        score++;
+        $(".MainContent").append("<p>Score:" + score + "</p>");
         $(".MainContent").append("<p>Correct</p>");
     }
     else{
+        if(score > 0)
+            score--;
+        $(".MainContent").append("<p>Score:" + score + "</p>");
         $(".MainContent").append("<p>Incorrect</p>");
 
     }
