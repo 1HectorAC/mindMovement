@@ -127,7 +127,7 @@ function PlayGame(){
     // Set score to 0 at start of each game. This is needed for replaying.
     score = 0;
 
-    $(".MainContent").append("<p>Score:" + score + "</p>");
+    $(".MainContent").append("<p>Score: " + score + "</p>");
 
     // Create new color to display.
     NewColor();
@@ -155,14 +155,14 @@ function CheckColor(num){
     // Check if values matches the colorVar.
     if(num == colorVar){
         score++;
-        $(".MainContent").append("<p>Score:" + score + "</p>");
-        $(".MainContent").append("<p>Correct</p>");
+        $(".MainContent").append("<p style='color:green'>Score: " + score + "</p>");
+        $(".MainContent").append("<p style='color:green'>Hit!</p>");
     }
     else{
         if(score > 0)
             score--;
-        $(".MainContent").append("<p>Score:" + score + "</p>");
-        $(".MainContent").append("<p>Incorrect</p>");
+        $(".MainContent").append("<p style='color:red'>Score: " + score + "</p>");
+        $(".MainContent").append("<p style='color:red'>Miss.</p>");
 
     }
 
@@ -179,6 +179,8 @@ function EndGame(){
     $(".MainContent").empty();
 
     $(".MainContent").append("<h1>Game Over</h1>");
+    $(".MainContent").append("<p>Final Score: "+ score +"</p>");
+
     $(".MainContent").append("<input type='submit' value='Play Again'>");
 
 
