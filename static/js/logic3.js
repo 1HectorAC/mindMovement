@@ -143,8 +143,11 @@ function NewColor(){
     colorVar = Math.floor(Math.random() * 4);
 
     // Add color to screen.
-    $(".MainContent").append("<p>" + COLOR_OPTIONS[colorVar] + "</p>");
-    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:100px; height:100px;"></div>');
+    var textColor = "white";
+    if(colorVar == 3)
+        textColor = "black";
+    var cText = "<p style='text-align:center; font-size: 25px; color:"+textColor+"'>" + COLOR_OPTIONS[colorVar] + "</p>";
+    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:100px; height:100px; line-height:100px">'+cText+'</div>');
 }
 
 // This function will check if the the first number matches the color value of the second variables and display results onto page.
