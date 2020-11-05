@@ -15,6 +15,7 @@ var colorVar = 0;
 
 // Variable needed for keeping track of score.
 var score = 0;
+var lives = 3;
 
 // Initialize the game.
 Initial();
@@ -127,13 +128,17 @@ function PlayGame(){
     // Set score to 0 at start of each game. This is needed for replaying.
     score = 0;
 
+    // Set life to 0.
+    lives = 3;
+
     $(".MainContent").append("<p>Score: " + score + "</p>");
+    $(".MainContent").append("<p>Lives: " + lives + "</p>");
 
     // Create new color to display.
     NewColor();
 
-    // Call end of game in 10 seconds.
-    setTimeout(EndGame, 10000);
+    // Call end of game in 30 seconds.
+    setTimeout(EndGame, 30000);
     
 }
 
@@ -159,12 +164,24 @@ function CheckColor(num){
     if(num == colorVar){
         score++;
         $(".MainContent").append("<p style='color:green'>Score: " + score + "</p>");
+        $(".MainContent").append("<p>Lives: " + lives + "</p>");
         $(".MainContent").append("<p style='color:green'>Hit!</p>");
     }
     else{
+        // Added check to prevent score from going to lower than 0.
         if(score > 0)
             score--;
+        
+        // Subtract from lives and end game if out of lives.
+        // Lives needs to be greater than 1 given that it will subtract from it and the result needs to be greater than 0.
+        if(lives > 1)
+            lives--;
+        else{
+            EndGame();
+            return;
+        }
         $(".MainContent").append("<p style='color:red'>Score: " + score + "</p>");
+        $(".MainContent").append("<p>Lives: " + lives + "</p>");
         $(".MainContent").append("<p style='color:red'>Miss.</p>");
 
     }
@@ -175,17 +192,19 @@ function CheckColor(num){
 
 // Clear screen and add game over content to page.
 function EndGame(){
-    // Change state. Note: will stop actions from keydown event listener.
-    currentState = GAMESTATE.START;
+    //Make sure you can only end game when playing.
+    if(currentState == GAMESTATE.PLAY){
+        // Change state. Note: will stop actions from keydown event listener.
+        currentState = GAMESTATE.START;
 
-    // Clear screen.
-    $(".MainContent").empty();
+        // Clear screen.
+        $(".MainContent").empty();
 
-    $(".MainContent").append("<h1>Game Over</h1>");
-    $(".MainContent").append("<p>Final Score: "+ score +"</p>");
+        $(".MainContent").append("<h1>Game Over</h1>");
+        $(".MainContent").append("<p>Final Score: "+ score +"</p>");
 
-    $(".MainContent").append("<input type='submit' value='Play Again'>");
-
+        $(".MainContent").append("<input type='submit' value='Play Again'>");
+    }
 
 
 }
