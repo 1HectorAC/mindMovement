@@ -17,6 +17,11 @@ var colorVar = 0;
 var score = 0;
 var lives = 3;
 
+// Variables to keep track of time.
+var playTime = 30;
+var countDownTimer = 30;
+var timer;
+
 // Initialize the game.
 Initial();
 
@@ -137,9 +142,12 @@ function PlayGame(){
     // Create new color to display.
     NewColor();
 
-    // Call end of game in 30 seconds.
-    setTimeout(EndGame, 30000);
+    // Call end of game in 'playTime' amount of seconds.
+    setTimeout(EndGame, playTime * 1000);
     
+    // Setup display for game timer.
+    $(".Timer").append("<p>Time: "+countDownTimer+"</p>")
+    timer = setInterval(UpdateTimer,1000);
 }
 
 // This function will set the colorVar to a new value and display to page.
@@ -207,4 +215,19 @@ function EndGame(){
     }
 
 
+}
+
+// Move timer down by 1 and update display. Also clear time if reach 0.
+function UpdateTimer(){
+    $(".Timer").empty();
+    countDownTimer-=1;
+    // Only update time if their is still time in timer, otherwise clear.
+    if(countDownTimer > 0){
+        $(".Timer").append("<p>Time: "+countDownTimer+"</p>");
+    }
+    else{
+        // Reset countDownTimer to time of game.
+        countDownTimer = playTime;
+        clearInterval(timer);
+    }
 }
