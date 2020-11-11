@@ -1,61 +1,54 @@
+const GAMESTATE = {
+    DIRECTIONS: 0,
+    START: 1
+};
+
+var round = 1;
+var randomString = "";
+
+var currentState = GAMESTATE.DIRECTIONS;
+
 $("form").submit(function (event) {
-    var amountIncrease = 1;
-    if ($('.MainContent').children().length == 0) {
+    if (currentState == GAMESTATE.DIRECTIONS) {
         $(".IntroContent").empty();
         $(".MainContent").append('<h5>Level:</h5>');
-        $(".MainContent").append('<p id="round">1</p>')
+        $(".MainContent").append('<p id="round">'+round+'</p>')
         $(".MainContent").append('<hr>');
-        $(".MainContent").append('<h1 id="String"></h1>');
-        $(".MainContent").append('<input type="hidden" name="stuff" id="hiddenString" value="">');
-        
+        $(".MainContent").append('<h1 id="displayString"></h1>');
+        currentState = GAMESTATE.START;
+        Start();
+
     }
     else{
-        //remove input box and submit
-        if($('#hiddenString').text() == $('#EnterChar').val()){
-            var num = parseInt($('#round').text());
-            $('#round').text(num + 1);
-            //$(".MainContent").append('<p id="round">1</p>')
-            //$(".MainContent").append('<p>'+$('#hiddenString').text()+ ' ' + $('#EnterChar').val() +'</p>');
+        if(randomString == $('#EnterChar').val()){
+            round++;
         }
-        else{
-            var num = parseInt($('#round').text());
-            if(num > 1){
-                $('#round').text(num - 1);
-
-            }
-            amountIncrease = -1;
+        else if(round > 1){
+            round--;
         }
-            
+        $('#round').text(round);
         $('#EnterChar').remove();
         $('#submit').remove();
+        Start();
 
     }
-    /*
-    if($('h1').is('#String')){
-
-    }*/
-    Start(amountIncrease);
     event.preventDefault();
 
 });
-function Start(amount) {
-
-    var string = $('#hiddenString').text();
-    var newString = ""
-    if (string.length < 3)
-        newString = generate_random_string(3);
+function Start() {
+    if (round <= 1)
+        randomString = generate_random_string(3);
     else {
-        newString = generate_random_string(string.length + amount);
+        randomString = generate_random_string(round + 2);
     }
 
-    $('#hiddenString').text(newString);
-    $('#String').text(newString);
+    $('#displayString').text(randomString);
     setTimeout(function () { AfterString(); }, 3000);
 }
 
 function AfterString() {
     //since it resets then length will never go up in Start()
-    $('#String').text('');
+    $('#displayString').text('');
     $('.MainContent').append('<input name="stuff" class="stuff" id="EnterChar">');
     $('.MainContent').append('<input type="submit" value="Submit" id="submit">');
 }
