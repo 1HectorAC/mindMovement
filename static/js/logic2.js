@@ -20,9 +20,9 @@ var countDownTime = 3;
 $("form").submit(function (event) {
     // When going from directions to game, will set up a lot of the display items.
     if (currentState == GAMESTATE.DIRECTIONS) {
-        $(".IntroContent").empty();
+        $(".MainContent").empty();
         $(".MainContent").append('<h5>Level:</h5>');
-        $(".MainContent").append('<p id="round">'+round+'</p>')
+        $(".MainContent").append('<p id="round">'+round+'</p>');
         $(".MainContent").append('<p id="timer"></p>');
         $(".MainContent").append('<hr>');
         $(".MainContent").append('<h1 id="displayString"></h1>');
