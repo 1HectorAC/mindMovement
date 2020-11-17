@@ -15,16 +15,19 @@
     <div class="back">
         {% include 'header.html' %}
 
-        <div class="jumbotron container" style="margin-top: 10px; margin-bottom: 10px;">
+        <div class="jumbotron container" style="margin-top: 10px; margin-bottom: 10px; margin-left:auto; margin-right:auto; text-align:center">
             <h3>Chars Memory Game</h3>
             <hr>
 
             <!--Main stuff here-->
             <form>
                 <div class='MainContent'>
-                    <p>Instructions: Character string will appear and disapear in a few seconds. Rememeber the string
-                        and type it in the box that appears.</p>
-                    <input type="submit" value="Play">
+                    <h5>-Instructions-</h5>
+                    <p>A Character string will appear and disapear in a few seconds. Rememeber the string
+                        and type it in the box that appears afterwards. Larger strings will be displayed 
+                        after every correct answer. Wrong answers will make the strings shorter (if the
+                        the string is larger than three characters.)</p>
+                    <input type="submit" class="btn btn-primary customButton" value="Play">
                 </div>
             </form>
             
