@@ -63,3 +63,14 @@
     text-align: center;
     font-size: 25px;
 }
+
+/**/
+.roundButton{
+    color: white;
+    font-size:40px;
+    background-color:#0446de;
+    height:65px;
+    width:65px;
+    border-radius: 50%;
+    display: inline-block;
+}

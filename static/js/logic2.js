@@ -21,17 +21,16 @@ $("form").submit(function (event) {
     // When going from directions to game, will set up a lot of the display items.
     if (currentState == GAMESTATE.DIRECTIONS) {
         $(".MainContent").empty();
-        $(".MainContent").append('<h5>Level:</h5>');
-        $(".MainContent").append('<p id="round">'+round+'</p>');
-        $(".MainContent").append('<p id="timer"></p>');
+        $(".MainContent").append('<h5 style="text-align:left">Level:</h5>');
+        $(".MainContent").append('<p id="round" style="text-align:left">'+round+'</p>');
         $(".MainContent").append('<hr>');
+        $(".MainContent").append('<p id="reminder" style="color:red"></p>');
         $(".MainContent").append('<h1 id="displayString"></h1>');
         currentState = GAMESTATE.START;
 
     }
     // When not in DIRECTION state then will just play game again forever.
     else{
-        //
         if(randomString == $('#EnterChar').val()){
             round++;
         }
@@ -43,6 +42,8 @@ $("form").submit(function (event) {
         $('#submit').remove();
     }
 
+    $(".MainContent").append('<p id="timer" class="roundButton"></p>');
+    $("#reminder").text("Remember string below!");
 
     // Setup random generated stirng part.
     SetupRandomNumber();
@@ -74,6 +75,7 @@ function SetupRandomNumber() {
 
 // Setup parts to accepts inputs in a textbox and a submit button.
 function SetupInputSection() {
+    $('#reminder').text('');
     $('#displayString').text('');
     $('.MainContent').append('<input name="stuff" class="stuff" id="EnterChar">');
     $('.MainContent').append('<input type="submit" value="Submit" id="submit">');
@@ -103,7 +105,7 @@ function TickDownTime(){
     }
     // Clear/Reset items relating to the timer.
     else{
-        $('#timer').empty();
+        $('#timer').remove();
         clearInterval(timer);
         countDownTime = maxCountDownTime;
     }
