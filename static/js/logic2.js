@@ -38,8 +38,7 @@ $("form").submit(function (event) {
             round--;
         }
         $('#round').text(round);
-        $('#EnterChar').remove();
-        $('#submit').remove();
+        $('.inputSection').remove();
     }
 
     $(".MainContent").append('<p id="timer" class="roundButton"></p>');
@@ -75,10 +74,17 @@ function SetupRandomNumber() {
 
 // Setup parts to accepts inputs in a textbox and a submit button.
 function SetupInputSection() {
+    //Clear a few items beforehand.
     $('#reminder').text('');
     $('#displayString').text('');
-    $('.MainContent').append('<input name="stuff" class="stuff" id="EnterChar">');
-    $('.MainContent').append('<input type="submit" value="Submit" id="submit">');
+
+    //Setup items to add to display.
+    var inputSection = $('<div class="inputSection"/>');
+    inputSection.append('<input name="stuff" class="form-control" id="EnterChar" style="width:50%;display: inline-block; font-size: 30px; text-align:center" placeholder="Enter string here!">');
+    inputSection.append('</br>');
+    inputSection.append('<input type="submit" value="Submit" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">');
+    $('.MainContent').append(inputSection);
+    
 }
 
 // Generate a string with random characters of string_length.
