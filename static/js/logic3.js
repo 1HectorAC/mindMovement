@@ -146,7 +146,7 @@ function PlayGame(){
     setTimeout(EndGame, playTime * 1000);
     
     // Setup display for game timer.
-    $(".Timer").append("<p>Time: "+countDownTimer+"</p>")
+    $(".Timer").text("Time: "+countDownTimer);
     timer = setInterval(UpdateTimer,1000);
 }
 
@@ -205,6 +205,11 @@ function EndGame(){
         // Change state. Note: will stop actions from keydown event listener.
         currentState = GAMESTATE.START;
 
+        // Reset/stop time related variables.
+        $(".Timer").empty();
+        countDownTimer = playTime;
+        clearInterval(timer);
+
         // Clear screen.
         $(".MainContent").empty();
 
@@ -219,15 +224,11 @@ function EndGame(){
 
 // Move timer down by 1 and update display. Also clear time if reach 0.
 function UpdateTimer(){
-    $(".Timer").empty();
+    
     countDownTimer-=1;
     // Only update time if their is still time in timer, otherwise clear.
     if(countDownTimer > 0){
-        $(".Timer").append("<p>Time: "+countDownTimer+"</p>");
+        $(".Timer").text("Time: "+countDownTimer);
     }
-    else{
-        // Reset countDownTimer to time of game.
-        countDownTimer = playTime;
-        clearInterval(timer);
-    }
+    
 }
