@@ -93,8 +93,9 @@ function InputPart(){
 
 //Setup the display for the start menu.
 function SetupStartMenu(){
-    $(".MainContent").append('<p>Instructions: Colors will appear in a block. Your job is the hitthe right direction key(Up, Down, Left, Right) associated with the color which will be shown before hand.</p>');
-    $(".MainContent").append('<input type="submit" value="Play">');
+    $(".MainContent").append('<h5>-Instructions-</h5>');
+    $(".MainContent").append('<p>A random color will be shown in a square block. Your job is the hit the right direction key(Up, Down, Left, Right) associated with the color. Color Key association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
+    $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play">');
 }
 
 // Setup the display for directional color association.
