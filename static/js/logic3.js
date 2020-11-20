@@ -46,8 +46,8 @@ function Initial(){
             // Displaying direction here.
             $(".MainContent").empty();
             SetupDirDisplay();
-
-            $(".MainContent").append("<input type='submit' value='Next'>");
+            $(".MainContent").append('</br>');
+            $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play">');
             currentState = GAMESTATE.PLAY;
         }
         // Check if game is in state of playing.
@@ -106,17 +106,17 @@ function SetupDirDisplay(){
     var row3 = $('<div class="row"></div>');
 
     // The first row. (top)
-    var c1 = $('<div class="col-md-3 offset-md-3", style= "background-color: red; color:white; text-align:center "><p>Top</p></div>');
+    var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: red; color:white; text-align:center "><p>Top</p></div>');
     row1.append(c1);
 
     // The second row. (left, right)
-    var c2 = $('<div class="col-md-3", style= "background-color: blue; color: white; text-align:center "><p>Left</p></div>');
-    var c2_2 = $('<div class="col-md-3 offset-md-3", style= "background-color: yellow; text-align:center "><p>Right</p></div>');
+    var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: blue; color: white; text-align:center "><p>Left</p></div>');
+    var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: yellow; text-align:center "><p>Right</p></div>');
     row2.append(c2);
     row2.append(c2_2);
 
     // The bottom row. (bottom)
-    var c3 = $('<div class="col-md-3 offset-md-3", style= "background-color: green; color:white; text-align:center  "><p>Down</p></div>');
+    var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: green; color:white; text-align:center  "><p>Down</p></div>');
     row3.append(c3);
 
     // Add rows to page.
