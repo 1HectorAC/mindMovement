@@ -106,23 +106,25 @@ function SetupDirDisplay(){
     var row3 = $('<div class="row"></div>');
 
     // The first row. (top)
-    var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: red; color:white; text-align:center "><p>Top</p></div>');
+    var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: red; color:white; text-align:center;border-radius: 15px; "><p>Up</p></div>');
     row1.append(c1);
 
     // The second row. (left, right)
-    var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: blue; color: white; text-align:center "><p>Left</p></div>');
-    var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: yellow; text-align:center "><p>Right</p></div>');
+    var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: blue; color: white; text-align:center;border-radius: 15px"><p>Left</p></div>');
+    var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: yellow; text-align:center;border-radius: 15px "><p>Right</p></div>');
     row2.append(c2);
     row2.append(c2_2);
 
     // The bottom row. (bottom)
-    var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: green; color:white; text-align:center  "><p>Down</p></div>');
+    var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: green; color:white; text-align:center;border-radius: 15px "><p>Down</p></div>');
     row3.append(c3);
 
-    // Add rows to page.
+    // Add content to main class.
+    $('.MainContent').append('<p>Remeber what color goes with what direction before starting!</p>');
     $(".MainContent").append(row1);
     $(".MainContent").append(row2);
     $(".MainContent").append(row3);
+    $(".MainContent").append('<hr>');    
 
 }
 
