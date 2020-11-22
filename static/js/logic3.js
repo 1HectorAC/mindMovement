@@ -140,10 +140,14 @@ function PlayGame(){
     lives = 3;
 
     // Setup variables to display.
-    $(".MainContent").append("<p class='Timer'>Time: " + countDownTimer+"</p>");
-    $(".MainContent").append("<p id='score'>Score: " + score + "</p>");
-    $(".MainContent").append("<p id='lives'>Lives: " + lives + "</p>");
+    var gameVars = $("<div id='gameVars' class='row'>");
+    gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
+    gameVars.append("<div class='offset-md-3 col-md-2'>Time:<br><p id ='timer'>" + countDownTimer + "</p></div>");
+    gameVars.append("<div class='offset-md-3 col-md-2'>Score:<br><p id='score'>" + score + "</p></div>");
+    $(".MainContent").append(gameVars);
     $(".MainContent").append("<p id='hitIndicator'></p>");
+    var cText = "<p id='boxText' style='text-align:center; font-size: 35px;'></p>";
+    $(".MainContent").append('<div id="displayBox" style="width:200px; height:100px; line-height:100px; display: inline-block; border-radius: 15px;">'+cText+'</div>');
 
     // Create new color to display.
     NewColor();
@@ -164,18 +168,19 @@ function NewColor(){
     var textColor = "white";
     if(colorVar == 3)
         textColor = "black";
-    var cText = "<p style='text-align:center; font-size: 25px; color:"+textColor+"'>" + COLOR_OPTIONS[colorVar] + "</p>";
-    $(".MainContent").append('<div id="displayBox" style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:200px; height:100px; line-height:100px;display: inline-block;border-radius: 15px;">'+cText+'</div>');
+    $("#boxText").css('color', textColor);
+    $("#boxText").text(COLOR_OPTIONS[colorVar] );
+    $("#displayBox").css("background-color", COLOR_OPTIONS[colorVar]);
 }
 
 // This function will check if the the first number matches the color value of the second variables and display results onto page.
 function CheckColor(num){
-    $("#displayBox").remove();
+    //$("#displayBox").remove();
 
     // Check if values matches the colorVar.
     if(num == colorVar){
         score++;
-        $("#score").text('Score: ' + score);
+        $("#score").text(score);
         $("#hitIndicator").css("color", "green");
         $("#hitIndicator").text("Hit!");
     }
@@ -192,8 +197,8 @@ function CheckColor(num){
             EndGame();
             return;
         }
-        $("#score").text('Score: ' + score);
-        $("#lives").text("Lives: " + lives);
+        $("#score").text(score);
+        $("#lives").text(lives);
         $("#hitIndicator").css("color", "red");
         $("#hitIndicator").text("Miss.");
 
@@ -211,7 +216,7 @@ function EndGame(){
         currentState = GAMESTATE.START;
 
         // Reset/stop time related variables.
-        $(".Timer").empty();
+        $("#timer").empty();
         countDownTimer = playTime;
         clearInterval(timer);
 
@@ -233,7 +238,7 @@ function UpdateTimer(){
     countDownTimer-=1;
     // Only update time if their is still time in timer, otherwise clear.
     if(countDownTimer > 0){
-        $(".Timer").text("Time: "+countDownTimer);
+        $("#timer").text(countDownTimer);
     }
     
 }
