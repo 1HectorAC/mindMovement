@@ -139,8 +139,11 @@ function PlayGame(){
     // Set life to 0.
     lives = 3;
 
-    $(".MainContent").append("<p>Score: " + score + "</p>");
-    $(".MainContent").append("<p>Lives: " + lives + "</p>");
+    // Setup variables to display.
+    $(".MainContent").append("<p class='Timer'>Time: " + countDownTimer+"</p>");
+    $(".MainContent").append("<p id='score'>Score: " + score + "</p>");
+    $(".MainContent").append("<p id='lives'>Lives: " + lives + "</p>");
+    $(".MainContent").append("<p id='hitIndicator'></p>");
 
     // Create new color to display.
     NewColor();
@@ -148,8 +151,7 @@ function PlayGame(){
     // Call end of game in 'playTime' amount of seconds.
     setTimeout(EndGame, playTime * 1000);
     
-    // Setup display for game timer.
-    $(".Timer").text("Time: "+countDownTimer);
+    // Setup update for game timer.
     timer = setInterval(UpdateTimer,1000);
 }
 
@@ -163,20 +165,19 @@ function NewColor(){
     if(colorVar == 3)
         textColor = "black";
     var cText = "<p style='text-align:center; font-size: 25px; color:"+textColor+"'>" + COLOR_OPTIONS[colorVar] + "</p>";
-    $(".MainContent").append('<div class="col-md-3", style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:100px; height:100px; line-height:100px">'+cText+'</div>');
+    $(".MainContent").append('<div id="displayBox" style= "background-color: '+COLOR_OPTIONS[colorVar]+'; width:200px; height:100px; line-height:100px;display: inline-block;border-radius: 15px;">'+cText+'</div>');
 }
 
 // This function will check if the the first number matches the color value of the second variables and display results onto page.
 function CheckColor(num){
-    // Clear screen.
-    $(".MainContent").empty();
+    $("#displayBox").remove();
 
     // Check if values matches the colorVar.
     if(num == colorVar){
         score++;
-        $(".MainContent").append("<p style='color:green'>Score: " + score + "</p>");
-        $(".MainContent").append("<p>Lives: " + lives + "</p>");
-        $(".MainContent").append("<p style='color:green'>Hit!</p>");
+        $("#score").text('Score: ' + score);
+        $("#hitIndicator").css("color", "green");
+        $("#hitIndicator").text("Hit!");
     }
     else{
         // Added check to prevent score from going to lower than 0.
@@ -191,9 +192,10 @@ function CheckColor(num){
             EndGame();
             return;
         }
-        $(".MainContent").append("<p style='color:red'>Score: " + score + "</p>");
-        $(".MainContent").append("<p>Lives: " + lives + "</p>");
-        $(".MainContent").append("<p style='color:red'>Miss.</p>");
+        $("#score").text('Score: ' + score);
+        $("#lives").text("Lives: " + lives);
+        $("#hitIndicator").css("color", "red");
+        $("#hitIndicator").text("Miss.");
 
     }
 
