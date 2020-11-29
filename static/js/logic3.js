@@ -22,6 +22,8 @@ var playTime = 30;
 var countDownTimer = 30;
 var timer;
 
+var hitStreak = 0;
+
 // Initialize the game.
 Initial();
 
@@ -130,6 +132,9 @@ function SetupDirDisplay(){
 
 // This function will be called to start the game.
 function PlayGame(){
+    // Reset variable that keeps track of hit streak.
+    hitStreak = 0;
+
     // Variable that will be set as a random color option to check.
     colorVar = 0
 
@@ -145,7 +150,7 @@ function PlayGame(){
     gameVars.append("<div class='offset-md-3 col-md-2'>Time:<br><p id ='timer'>" + countDownTimer + "</p></div>");
     gameVars.append("<div class='offset-md-3 col-md-2'>Score:<br><p id='score'>" + score + "</p></div>");
     $(".MainContent").append(gameVars);
-    $(".MainContent").append("<p id='hitIndicator'></p>");
+    $(".MainContent").append("<p id='hitIndicator' style='font-size: 20px'></p>");
     var cText = "<p id='boxText' style='text-align:center; font-size: 35px;'></p>";
     $(".MainContent").append('<div id="displayBox" style="width:200px; height:100px; line-height:100px; display: inline-block; border-radius: 15px;">'+cText+'</div>');
 
@@ -180,11 +185,18 @@ function CheckColor(num){
     // Check if values matches the colorVar.
     if(num == colorVar){
         score++;
+        hitStreak++;
         $("#score").text(score);
         $("#hitIndicator").css("color", "green");
-        $("#hitIndicator").text("Hit!");
+        if(hitStreak > 1)
+            $("#hitIndicator").text("Hit! x" + hitStreak);
+        else
+            $("#hitIndicator").text("Hit!");
     }
     else{
+        // Reset hitStreak after missing.
+        hitStreak = 0;
+
         // Added check to prevent score from going to lower than 0.
         if(score > 0)
             score--;
