@@ -10,6 +10,10 @@ def main():
 def about():
     return render_template('about.html')
 
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')  
+
 @app.route('/game/game1')
 def game1():
     return render_template('game1.html')
