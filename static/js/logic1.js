@@ -30,6 +30,9 @@ $("form").submit(function (event) {
 
     // If in the menu state then move one to starting game.
     if (currentState == GAMESTATE.MENU) {
+        //Setup Number of questions variable.
+        numberOfQuestions = parseInt($('#num').val());
+
         // Resut answerList incase playing again.
         answerList = [];
 
@@ -84,6 +87,14 @@ function setupOption(){
             optionPart.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
         optionPart.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
     }
+
+    // Setup dropdown part.
+    var selectSection = $('<select id="num" class="btn btn-secondary" style="margin-bottom:10px"></select>');
+    selectSection.append('<option value="5">5 Questions</option>');
+    selectSection.append('<option value="10">10 Questions</option>');
+    selectSection.append('<option value="15">15 Questions</option>');
+    optionPart.append(selectSection);
+    optionPart.append('<br><hr>');
 
     optionPart.append('<input type="submit" value="Submit" class="btn btn-primary customButton">');
 }
