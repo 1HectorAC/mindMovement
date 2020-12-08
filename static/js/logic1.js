@@ -12,6 +12,9 @@ const OPERATION_LIST = [
     ["times","*","Multiplication (*)"]
 ];
 
+// The options for how many questions a game can have.
+const QuestionAmountOptions = [5, 10, 15];
+
 var currentState = GAMESTATE.MENU;
 
 // Number of Questions in game.
@@ -55,7 +58,8 @@ $("form").submit(function (event) {
         // Remove Submit answers button.
         $('#submitAnswer').remove();
 
-        // Make answer spots unchangable.
+        // Make answer textbox unchangable.
+        $('.entryFieldClass').prop('disabled', true);
 
         // Add correct statements to equations
         AddCorrectStatements($('.entryFieldClass'));
@@ -94,9 +98,9 @@ function setupOption(){
 
     // Setup dropdown part.
     var selectSection = $('<select id="num" class="btn btn-secondary" style="margin-bottom:10px"></select>');
-    selectSection.append('<option value="5">5 Questions</option>');
-    selectSection.append('<option value="10">10 Questions</option>');
-    selectSection.append('<option value="15">15 Questions</option>');
+    for(i = 0; i < QuestionAmountOptions.length; i++){
+        selectSection.append('<option value="'+QuestionAmountOptions[i]+'">'+QuestionAmountOptions[i]+' Questions</option>');
+    }
     optionPart.append(selectSection);
     optionPart.append('<br><hr>');
 
