@@ -55,10 +55,14 @@ $("form").submit(function (event) {
         // Remove Submit answers button.
         $('#submitAnswer').remove();
 
-        //make answer spots unchangable.
+        // Make answer spots unchangable.
 
-        //calculate Results here
-        mainContent.append('<h1>Total Correct: '+GetAnswerTotal()+' out of '+ numberOfQuestions +'</h1>');
+        // Add correct statements to equations
+        AddCorrectStatements($('.entryFieldClass'));
+
+        // Calculate Results and display.
+        mainContent.append('<h1>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' out of '+ numberOfQuestions +'</h1>');
+        
         mainContent.append('<input id="submitRetry" class="btn btn-primary customButton" type="submit" value="Retry">');
         currentState = GAMESTATE.GAMEOVER;
     }
@@ -146,22 +150,22 @@ function AddEquation(operation, htmlPlacement) {
 
 }
 
-// Return total number of answers that match input and actual answer.
-function GetAnswerTotal(){
-    var enteredValues = $('.entryFieldClass');
+// Return total number of answers that match input and actual answer. Note that this is depended on answerList being filled before hand.
+function GetAnswerTotal(entryClassList){
     var total = 0;
-    for(i = 0; i < enteredValues.length; i++){
-        if(enteredValues[i].value == answerList[i]){
+    for(i = 0; i < entryClassList.length; i++){
+        if(entryClassList[i].value == answerList[i]){
             total++;
         }
     }
     return total;
 }
 
-
-
-
-
-
-
-
+// Add "correct" text at end of each equation that was answered correctly. Note that this is depended on answerList being filled before hand.
+function AddCorrectStatements(entryClassList){
+    for(i = 0; i < entryClassList.length; i++){
+        if(entryClassList[i].value == answerList[i]){
+            $("<p style='color:green; display:inline; text-size:30px'> Correct!</p>").insertAfter(entryClassList[i]);
+        }
+    }
+}
