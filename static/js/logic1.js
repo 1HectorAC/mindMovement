@@ -26,6 +26,9 @@ var MaxNumberOption = 9;
 // List containing answers to all questions in a game.
 var answerList = [];
 
+var currentTime = 0;
+var timer;
+
 setupOption();
 
 $("form").submit(function (event) {
@@ -48,8 +51,11 @@ $("form").submit(function (event) {
 
         mainContent.append('<input id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Done">');
 
-        //clear the form
+        // Clear the form.
         $('#optionPart').empty();
+
+        //Add game timer.
+        timer = setInterval(IncrementTime,1000);
 
         currentState = GAMESTATE.PLAY;
     }
@@ -58,6 +64,8 @@ $("form").submit(function (event) {
         // Remove Submit answers button.
         $('#submitAnswer').remove();
 
+        clearInterval(timer);
+
         // Make answer textbox unchangable.
         $('.entryFieldClass').prop('disabled', true);
 
@@ -65,8 +73,9 @@ $("form").submit(function (event) {
         AddCorrectStatements($('.entryFieldClass'));
 
         // Calculate Results and display.
-        mainContent.append('<h1>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' out of '+ numberOfQuestions +'</h1>');
-        
+        mainContent.append('<h2>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' / '+ numberOfQuestions +'</h2>');
+        mainContent.append('<h2>Time: '+currentTime+' Seconds.</h2>');
+
         mainContent.append('<input id="submitRetry" class="btn btn-primary customButton" type="submit" value="Retry">');
         currentState = GAMESTATE.GAMEOVER;
     }
@@ -83,10 +92,14 @@ $("form").submit(function (event) {
 //Setup up option selection part at start.
 function setupOption(){
     var optionPart = $('#optionPart');
-    optionPart.append('<h5>~Enter an option~</h5>');
-    optionPart.append('<hr>')
+
+    optionPart.append('<h5>-Descriptions-</h5>');
+    optionPart.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
+    optionPart.append('<hr>');
+
 
     // Setup operation checkbox options.
+    optionPart.append('<h5>-Operation-</h5>');
     for(i = 0; i < OPERATION_LIST.length; i++){
         // Add 'checked' for first checkbox option.
         if(i==0)
@@ -95,14 +108,16 @@ function setupOption(){
             optionPart.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
         optionPart.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
     }
+    optionPart.append('<hr>');
 
     // Setup dropdown part.
-    var selectSection = $('<select id="num" class="btn btn-secondary" style="margin-bottom:10px"></select>');
+    optionPart.append('<h5>-Number of Questions-</h5>');
+    var selectSection = $('<select id="num" class="btn btn-secondary"></select>');
     for(i = 0; i < QuestionAmountOptions.length; i++){
         selectSection.append('<option value="'+QuestionAmountOptions[i]+'">'+QuestionAmountOptions[i]+' Questions</option>');
     }
     optionPart.append(selectSection);
-    optionPart.append('<br><hr>');
+    optionPart.append('<hr>');
 
     optionPart.append('<input type="submit" value="Submit" class="btn btn-primary customButton">');
 }
@@ -172,4 +187,9 @@ function AddCorrectStatements(entryClassList){
             $("<p style='color:green; display:inline; text-size:30px'> Correct!</p>").insertAfter(entryClassList[i]);
         }
     }
+}
+
+// Increment the currentTime value.
+function IncrementTime(){
+    currentTime++;
 }
