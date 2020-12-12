@@ -18,55 +18,70 @@ var timer;
 var maxCountDownTime = 3;
 var countDownTime = 3;
 
+var maxLives = 3;
+var lives = 3;
+
 $("form").submit(function (event) {
     // When going from directions to game, will set up a lot of the display items.
     if (currentState == GAMESTATE.DIRECTIONS) {
         $(".MainContent").empty();
-        $(".MainContent").append('<h5 style="text-align:left">Level:</h5>');
-        $(".MainContent").append('<p id="round" style="text-align:left">'+round+'</p>');
+
+        var gameVars = $("<div id='gameVars' class='row'>");
+        gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
+        gameVars.append("<div class='offset-md-8 col-md-2'>Level:<br><p id='round'>" + round + "</p></div>");
+        $(".MainContent").append(gameVars);
+
         $(".MainContent").append('<hr>');
         $(".MainContent").append('<p id="hitMessage" style="font-size:20px; margin-bottom: 2px"></p>');
         $(".MainContent").append('<p id="reminder" style="margin-bottom: 2px"></p>');
         $(".MainContent").append('<h1 id="displayString"></h1>');
+        
+        TempStringDisplaySetup();
         currentState = GAMESTATE.START;
-
     }
     // When not in DIRECTION state then will just play game again forever.
-    else{
+    else if (currentState  == GAMESTATE.START) {
         if(randomString == $('#EnterChar').val()){
             $("#round").css("color", "green");
             $("#hitMessage").text("Correct!");
             $("#hitMessage").css("color", "green");
             $("#reminder").css("color", "green");
             round++;
+            $('#round').text(round);
         }
-        else if(round > 1){
-            $("#round").css("color", "red");
+        else{
+            lives--;
+            $("#lives").text(lives);
+
             $("#hitMessage").text("Miss");
+            $("#round").css("color", "red");
             $("#hitMessage").css("color", "red");
             $("#reminder").css("color", "red");
-
-            round--;
+            if(round > 1){
+                round--;
+                $('#round').text(round);
+            }
+            
         }
-        // Need this else to bring back 'miss' message if fail white in round 1.
-        else{
-            $("#hitMessage").text("Miss");
-        }
 
-        $('#round').text(round);
         $('.inputSection').remove();
+        TempStringDisplaySetup();
+
+        /*
+        // game Over check.
+        if(lives > 0){
+            $('.inputSection').remove();
+            TempStringDisplaySetup();
+        }
+        else{
+            $(".MainContent").empty();
+        }*/
+    }
+    else{
+        $(".MainContent").empty();
     }
 
-    $(".MainContent").append('<p id="timer" class="roundButton"></p>');
-    $("#reminder").text("Remember string below!");
 
-    // Setup random generated string part.
-    randomString = SetupRandomString(round+ 2);
-    $('#displayString').text(randomString);
-
-    // Setup interval timer to display how long displayed string will stray on screen.
-    $('#timer').text(countDownTime);
-    timer = setInterval(CountDownAction,1000);
 
     event.preventDefault();
 
@@ -130,4 +145,18 @@ function CountDownAction(){
         $('.MainContent').append(SetupInputSection());
         
     }
+}
+
+// Setup screen for temporary string display. This includes timer to start next part.
+function TempStringDisplaySetup(){
+    $(".MainContent").append('<p id="timer" class="roundButton"></p>');
+    $("#reminder").text("Remember string below!");
+
+    // Setup random generated string part.
+    randomString = SetupRandomString(round+ 2);
+    $('#displayString').text(randomString);
+
+    // Setup interval timer to display how long displayed string will stray on screen.
+    $('#timer').text(countDownTime);
+    timer = setInterval(CountDownAction,1000);
 }
