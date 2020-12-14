@@ -7,6 +7,7 @@ var currentState = GAMESTATE.DIRECTIONS;
 
 // Variable to keep track of current round.
 var round = 1;
+var hightestRound = 1;
 
 // Variable used to keep track or random number generated to remember and compare to inputed answer.
 var randomString = "";
@@ -20,6 +21,8 @@ var countDownTime = 3;
 
 var maxLives = 3;
 var lives = 3;
+
+DirectionsScreen();
 
 $("form").submit(function (event) {
     // When going from directions to game, will set up a lot of the display items.
@@ -38,7 +41,6 @@ $("form").submit(function (event) {
         
         TempStringDisplaySetup();
 
-        lives = maxLives;
         currentState = GAMESTATE.START;
     }
     // When not in DIRECTION state then will just play game again forever.
@@ -50,6 +52,8 @@ $("form").submit(function (event) {
             $("#reminder").css("color", "green");
             round++;
             $('#round').text(round);
+            if(round > hightestRound)
+                hightestRound = round;
         }
         else{
             lives--;
@@ -72,9 +76,14 @@ $("form").submit(function (event) {
             TempStringDisplaySetup();
         }
         else{
-            $(".MainContent").empty();
             currentState = GAMESTATE.DIRECTIONS;
+            $(".MainContent").empty();
             $(".MainContent").append(EndGameScreen());
+
+            // Reset a few variables for if playing again.
+            lives = maxLives;
+            hightestRound = 1;
+            round = 1;
         }
     }
     else{
@@ -165,7 +174,17 @@ function TempStringDisplaySetup(){
 function EndGameScreen(){
     var endGameItems = $('<div></div>');
     endGameItems.append('<h1>Game Over</h1>');
-    //endGameItems.append('<input type="submit" value="Retry" class="btn btn-primary customButton" style="Margin-top:10px">');
+    endGameItems.append('<h5 style="color:green">Highest Round Reached: '+hightestRound+'</h5>');
+    endGameItems.append('<input type="submit" value="Retry" class="btn btn-primary customButton" style="Margin-top:10px">');
 
     return endGameItems;
+}
+
+// Setup items for directions screen.
+function DirectionsScreen(){
+    var screenItems = $("<div></div>");
+    screenItems.append("<h5>-Instructions-</h5>");
+    screenItems.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter (if the the string is larger than three characters.)</p>");
+    screenItems.append('<input type="submit" class="btn btn-primary customButton" value="Play">');
+    $(".MainContent").append(screenItems);
 }
