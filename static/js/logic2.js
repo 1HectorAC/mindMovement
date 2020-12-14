@@ -37,6 +37,8 @@ $("form").submit(function (event) {
         $(".MainContent").append('<h1 id="displayString"></h1>');
         
         TempStringDisplaySetup();
+
+        lives = maxLives;
         currentState = GAMESTATE.START;
     }
     // When not in DIRECTION state then will just play game again forever.
@@ -64,18 +66,16 @@ $("form").submit(function (event) {
             
         }
 
-        $('.inputSection').remove();
-        TempStringDisplaySetup();
-
-        /*
-        // game Over check.
+        // Game over check.
         if(lives > 0){
             $('.inputSection').remove();
             TempStringDisplaySetup();
         }
         else{
             $(".MainContent").empty();
-        }*/
+            currentState = GAMESTATE.DIRECTIONS;
+            $(".MainContent").append(EndGameScreen());
+        }
     }
     else{
         $(".MainContent").empty();
@@ -159,4 +159,13 @@ function TempStringDisplaySetup(){
     // Setup interval timer to display how long displayed string will stray on screen.
     $('#timer').text(countDownTime);
     timer = setInterval(CountDownAction,1000);
+}
+
+// Setup items for end game screen.
+function EndGameScreen(){
+    var endGameItems = $('<div></div>');
+    endGameItems.append('<h1>Game Over</h1>');
+    //endGameItems.append('<input type="submit" value="Retry" class="btn btn-primary customButton" style="Margin-top:10px">');
+
+    return endGameItems;
 }
