@@ -186,6 +186,9 @@ function AddCorrectStatements(entryClassList){
         if(entryClassList[i].value == answerList[i]){
             $("<p style='color:green; display:inline; text-size:30px'> Correct!</p>").insertAfter(entryClassList[i]);
         }
+        else{
+            $("<p style='color:red; display:inline; text-size:30px'> Miss. Answer: "+ answerList[i] +"</p>").insertAfter(entryClassList[i]);
+        }
     }
 }
 
