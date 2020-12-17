@@ -8,7 +8,7 @@ var currentState = GAMESTATE.DIRECTIONS;
 
 // Variable to keep track of current round.
 var round = 1;
-var hightestRound = 1;
+var hightestRound = round;
 
 // Variable used to keep track or random number generated to remember and compare to inputed answer.
 var randomString = "";
@@ -17,17 +17,34 @@ var randomString = "";
 var timer;
 
 // Variables used to set time.
-var maxCountDownTime = 3;
-var countDownTime = 3;
+var maxCountDownTime = 2;
+var countDownTime = maxCountDownTime;
 
-var maxLives = 3;
-var lives = 3;
+var maxLives = 1;
+var lives = maxLives;
 
 DirectionsScreen();
 
 $("form").submit(function (event) {
+
     // When going from directions to game, will set up a lot of the display items.
     if (currentState == GAMESTATE.DIRECTIONS) {
+        // Check if value to set difficulty is set. Will only work the first time you play since directions aren't shown again.
+        if(  typeof $('#difficulty').val() !== 'undefined'){
+            if(parseInt($('#difficulty').val()) == 1){
+                maxLives = 4;
+                lives = maxLives;
+                maxCountDownTime = 6;
+                countDownTime = maxCountDownTime;
+            }
+            else{
+                maxLives = 2;
+                lives = maxLives;
+                maxCountDownTime = 3;
+                countDownTime = maxCountDownTime;
+            }
+        }
+
         $(".MainContent").empty();
 
         var gameVars = $("<div id='gameVars' class='row'>");
@@ -199,7 +216,17 @@ function EndGameScreen(){
 function DirectionsScreen(){
     var screenItems = $("<div></div>");
     screenItems.append("<h5>-Instructions-</h5>");
-    screenItems.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter (if the the string is larger than three characters.)</p>");
+    screenItems.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter. The difficulty settings will affect how a long a string is displayed and amount of lives.</p>");
+    screenItems.append("<hr>");
+
+    // Setup dropdown for difficulty settings.
+    screenItems.append('<h5>-Difficulty-</h5>');
+    var selectSection = $('<select id="difficulty" class="btn btn-secondary"></select>');
+    selectSection.append('<option value="1"> Easy (6 seconds, 4 lives)</option>');
+    selectSection.append('<option value="2"> Hard (3 seconds, 2 lives)</option>');
+    screenItems.append(selectSection);
+    
+    screenItems.append("<hr>");
     screenItems.append('<input type="submit" class="btn btn-primary customButton" value="Play">');
     $(".MainContent").append(screenItems);
 }
