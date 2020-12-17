@@ -1,7 +1,8 @@
 // Manage state of game.
 const GAMESTATE = {
     DIRECTIONS: 0,
-    START: 1
+    START: 1,
+    LOAD: 2
 };
 var currentState = GAMESTATE.DIRECTIONS;
 
@@ -72,8 +73,12 @@ $("form").submit(function (event) {
 
         // Game over check.
         if(lives > 0){
+            currentState = GAMESTATE.LOAD;
+            var inputedChar = $('#EnterChar').val();
             $('.inputSection').remove();
-            TempStringDisplaySetup();
+
+            // Add results screen to compare answer with actual answer.
+            ResultsScreen(inputedChar);
         }
         else{
             currentState = GAMESTATE.DIRECTIONS;
@@ -84,7 +89,18 @@ $("form").submit(function (event) {
             lives = maxLives;
             hightestRound = 1;
             round = 1;
+
+            
         }
+    }
+    else if(currentState == GAMESTATE.LOAD){
+        $('#resultItems').remove();
+        $('#hitMessage').text('');
+
+        TempStringDisplaySetup();
+        currentState = GAMESTATE.START;
+
+
     }
     else{
         $(".MainContent").empty();
@@ -149,7 +165,6 @@ function CountDownAction(){
         // Clear a few items beforehand.
         $('#reminder').text('');
         $('#displayString').text('');
-        $('#hitMessage').text('');
 
         $('.MainContent').append(SetupInputSection());
         
@@ -173,8 +188,8 @@ function TempStringDisplaySetup(){
 // Setup items for end game screen.
 function EndGameScreen(){
     var endGameItems = $('<div></div>');
-    endGameItems.append('<h1>Game Over</h1>');
-    endGameItems.append('<h5 style="color:green">Highest Round Reached: '+hightestRound+'</h5>');
+    endGameItems.append('<h1 style="color:red">Game Over</h1>');
+    endGameItems.append('<h5>Highest Round Reached: '+hightestRound+'</h5>');
     endGameItems.append('<input type="submit" value="Retry" class="btn btn-primary customButton" style="Margin-top:10px">');
 
     return endGameItems;
@@ -187,4 +202,13 @@ function DirectionsScreen(){
     screenItems.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter (if the the string is larger than three characters.)</p>");
     screenItems.append('<input type="submit" class="btn btn-primary customButton" value="Play">');
     $(".MainContent").append(screenItems);
+}
+
+// Setup items for results screen.
+function ResultsScreen(inputedChar){
+    var resultItems = $('<div id="resultItems"></div>');
+    resultItems.append('<h5>Answer: '+randomString+'</h5>');
+    resultItems.append('<h5>Your Answer: '+inputedChar+'</h5>');
+    resultItems.append('<input type="submit" value="Next" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">');
+    $(".MainContent").append(resultItems);
 }
