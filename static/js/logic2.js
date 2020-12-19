@@ -235,7 +235,43 @@ function DirectionsScreen(){
 function ResultsScreen(inputedChar){
     var resultItems = $('<div id="resultItems"></div>');
     resultItems.append('<h5>Answer: '+randomString+'</h5>');
-    resultItems.append('<h5>Your Answer: '+inputedChar+'</h5>');
+
+    var indexPoint = DifferenceIndex(randomString,inputedChar);
+
+    // Setup display of inputed string with correction
+    if(indexPoint != -1){
+        var fHalf = inputedChar.substring(0,indexPoint);
+        var sHalf = inputedChar.substring(indexPoint, inputedChar.length);
+        resultItems.append('<h5>Your Answer: '+fHalf+'<span style="color:red">'+sHalf+'</span></h5>');
+    }
+    // Case where full string wasn't entered and need '_' to indicate missing chars.
+    else if(randomString.length > inputedChar.length){
+        var lengthDif = randomString.length - inputedChar.length;
+        resultItems.append('<h5>Your Answer: '+ inputedChar +'<span style="color:red">'+  "_".repeat(lengthDif) + '</span></h5>');
+    }
+    // Case where entered more chars then needed.
+    else{
+        var fHalf = inputedChar.substring(0,randomString.length);
+        var sHalf = inputedChar.substring(randomString.length, inputedChar.length);
+        resultItems.append('<h5>Your Answer: '+fHalf+'<span style="color:red">'+sHalf+'</span></h5>');
+    }
+
     resultItems.append('<input type="submit" value="Next" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">');
     $(".MainContent").append(resultItems);
+}
+
+// Compare two strings and return the index point at which they match up the the length of the shortest lenght.
+function DifferenceIndex(s1, s2){
+    var index = 0;
+    var shortestLength = (s1.length < s2.length) ? s1.length: s2.length;
+    for(i = 0; i < shortestLength;i++){
+        if(s1[i] == s2[i]){
+            index++;
+        }
+        else{
+            return index;
+        }
+    }
+    // Assumes all values match comparing shortest string to all/start of other string.
+    return -1;
 }
