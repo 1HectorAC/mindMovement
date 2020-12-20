@@ -235,8 +235,8 @@ function EndGame(){
         // Clear screen.
         $(".MainContent").empty();
 
-        $(".MainContent").append("<h1>Game Over</h1>");
-        $(".MainContent").append("<p>Final Score: "+ score +"</p>");
+        $(".MainContent").append("<h1 style='color:red'>Game Over</h1>");
+        $(".MainContent").append("<h5>Final Score: "+ score +"</h5>");
 
         $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play Again">');
     }
