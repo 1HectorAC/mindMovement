@@ -18,8 +18,8 @@ var score = 0;
 var lives = 3;
 
 // Variables to keep track of time.
-var playTime = 30;
-var countDownTimer = 30;
+var maxCountDownTime = 30;
+var countDownTime = maxCountDownTime;
 var timer;
 
 var hitStreak = 0;
@@ -30,78 +30,48 @@ Initial();
 // Initialize the game and setup all key parts to start.
 function Initial(){
     // Call function to initially setup start menu.
-    SetupStartMenu();
+    SetupStartMenu($(".MainContent"));
 
-    // Setup up input key part.
-    InputPart();
-
-    //Setup button control to affect state of game.
-    $("form").submit(function (event) {
-        if(currentState == GAMESTATE.START){
+    $("body").on('click', 'button', function(ev) {
+        ev.preventDefault()
+        if ($(this).attr("value") == "beginning") {
             $('.MainContent').empty();
-            SetupStartMenu();
+            SetupDirDisplay($(".MainContent"));
+            $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
 
-            currentState = GAMESTATE.DIRECTIONS;
         }
-        // Check if game is in state of displaying directions.
-        else if(currentState == GAMESTATE.DIRECTIONS){
-            // Displaying direction here.
-            $(".MainContent").empty();
-            SetupDirDisplay();
-            $(".MainContent").append('</br>');
-            $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play">');
-            currentState = GAMESTATE.PLAY;
-        }
-        // Check if game is in state of playing.
-        else if(currentState = GAMESTATE.PLAY){
-            $(".MainContent").empty();
-            //Start game.
+        if ($(this).attr("value") == "Play") {
+            $('.MainContent').empty();
             PlayGame();
         }
-        else{
-            // Maybe add end of game option here later.
-            //$(".MainContent").empty();
+
+        //GameButtons
+        if ($(this).attr("value") == "Up") {
+            CheckColor(0);
+        }
+        if ($(this).attr("value") == "Left") {
+            CheckColor(1);
+        }
+        if ($(this).attr("value") == "Down") {
+            CheckColor(2);
+        }
+        if ($(this).attr("value") == "Right") {
+            CheckColor(3);
         }
 
-        event.preventDefault();
     });
 }
 
-//Setup up keydown control.
-function InputPart(){
-    document.addEventListener("keydown", event => {
-        if(currentState == GAMESTATE.PLAY){
-            switch(event.keyCode){
-                // Up key.
-                case 38:
-                    CheckColor(0);
-                    break;
-                // Left key.
-                case 37:
-                    CheckColor(1);
-                    break;
-                // Down key.
-                case 40:
-                    CheckColor(2);
-                    break;
-                // Right key.
-                case 39:
-                    CheckColor(3);
-                    break;
-            }
-        }
-    });
-}
 
 //Setup the display for the start menu.
-function SetupStartMenu(){
-    $(".MainContent").append('<h5>-Instructions-</h5>');
-    $(".MainContent").append('<p>A random color will be shown in a square block. Your job is the hit the right direction key(Up, Down, Left, Right) associated with the color. Color Key association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
-    $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play">');
+function SetupStartMenu(element){
+    element.append('<h5>-Instructions-</h5>');
+    element.append('<p>A random color will be shown in a square block. Your job is the hit the right direction key(Up, Down, Left, Right) associated with the color. Color Key association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
+    element.append('<button type="submit" class="btn btn-primary customButton" value="beginning">Next</button>');
 }
 
 // Setup the display for directional color association.
-function SetupDirDisplay(){
+function SetupDirDisplay(element){
     // Setup rows for each direction to display.
     var row1 = $('<div class="row"></div>');
     var row2 = $('<div class="row"></div>');
@@ -122,11 +92,11 @@ function SetupDirDisplay(){
     row3.append(c3);
 
     // Add content to main class.
-    $('.MainContent').append('<p>Remeber what color goes with what direction before starting!</p>');
-    $(".MainContent").append(row1);
-    $(".MainContent").append(row2);
-    $(".MainContent").append(row3);
-    $(".MainContent").append('<hr>');    
+    $(element).append('<p>Remeber what color goes with what direction before starting!</p>');
+    $(element).append(row1);
+    $(element).append(row2);
+    $(element).append(row3);
+    $(element).append('<hr>');    
 
 }
 
@@ -141,27 +111,57 @@ function PlayGame(){
     // Set score to 0 at start of each game. This is needed for replaying.
     score = 0;
 
-    // Set life to 0.
+    // Set life to 3.
     lives = 3;
+
+    // Reset countdownTime
+    countDownTime = maxCountDownTime;
 
     // Setup variables to display.
     var gameVars = $("<div id='gameVars' class='row'>");
     gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
-    gameVars.append("<div class='offset-md-3 col-md-2'>Time:<br><p id ='timer'>" + countDownTimer + "</p></div>");
+    gameVars.append("<div class='offset-md-3 col-md-2'>Time:<br><p id ='timer'>" + countDownTime + "</p></div>");
     gameVars.append("<div class='offset-md-3 col-md-2'>Score:<br><p id='score'>" + score + "</p></div>");
     $(".MainContent").append(gameVars);
     $(".MainContent").append("<p id='hitIndicator' style='font-size: 20px'></p>");
+
+    // Display Box.
     var cText = "<p id='boxText' style='text-align:center; font-size: 35px;'></p>";
     $(".MainContent").append('<div id="displayBox" style="width:200px; height:100px; line-height:100px; display: inline-block; border-radius: 15px;">'+cText+'</div>');
+
+        // Setup rows for each direction to display.
+        var row1 = $('<div class="row"></div>');
+        var row2 = $('<div class="row"></div>');
+        var row3 = $('<div class="row"></div>');
+    
+        // The first row. (top)
+        var c1 = $('<button type="submit" class="col-md-2 offset-md-5 btn btn-dark" value="Up">Up</button>');
+        row1.append(c1);
+    
+        // The second row. (left, right)
+        var c2 = $('<button type="submit"  class="col-md-2 offset-md-3 btn btn-dark" value="Left">Left</button>');
+        var c2_2 = $('<button type="submit"  class="col-md-2 offset-md-2 btn btn-dark" value="Right">Right</button>');
+        row2.append(c2);
+        row2.append(c2_2);
+    
+        // The bottom row. (bottom)
+        var c3 = $('<button type="submit"  class="col-md-2 offset-md-5 btn btn-dark" value="Down">Down</button>');
+        row3.append(c3);
+    
+        // Add content to main class.
+        $(".MainContent").append("<br>");
+        $(".MainContent").append("<br>");
+        $(".MainContent").append(row1);
+        $(".MainContent").append(row2);
+        $(".MainContent").append(row3);
+        $(".MainContent").append("<br>");
 
     // Create new color to display.
     NewColor();
 
-    // Call end of game in 'playTime' amount of seconds.
-    setTimeout(EndGame, playTime * 1000);
-    
     // Setup update for game timer.
-    timer = setInterval(UpdateTimer,1000);
+    timer = setInterval(EndCountDown,1000);
+
 }
 
 // This function will set the colorVar to a new value and display to page.
@@ -222,14 +222,7 @@ function CheckColor(num){
 
 // Clear screen and add game over content to page.
 function EndGame(){
-    //Make sure you can only end game when playing.
-    if(currentState == GAMESTATE.PLAY){
-        // Change state. Note: will stop actions from keydown event listener.
-        currentState = GAMESTATE.START;
-
         // Reset/stop time related variables.
-        $("#timer").empty();
-        countDownTimer = playTime;
         clearInterval(timer);
 
         // Clear screen.
@@ -238,19 +231,20 @@ function EndGame(){
         $(".MainContent").append("<h1 style='color:red'>Game Over</h1>");
         $(".MainContent").append("<h5>Final Score: "+ score +"</h5>");
 
-        $(".MainContent").append('<input type="submit" class="btn btn-primary customButton" value="Play Again">');
-    }
-
+        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="beginning">Play Again</button>');
 
 }
 
 // Move timer down by 1 and update display. Also clear time if reach 0.
-function UpdateTimer(){
+function EndCountDown(){
     
-    countDownTimer-=1;
+    countDownTime-=1;
     // Only update time if their is still time in timer, otherwise clear.
-    if(countDownTimer > 0){
-        $("#timer").text(countDownTimer);
+    if(countDownTime > 0){
+        $("#timer").text(countDownTime);
+    }
+    else{
+        EndGame();
     }
     
 }
