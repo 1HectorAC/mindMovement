@@ -29,7 +29,7 @@ var answerList = [];
 var currentTime = 0;
 var timer;
 
-setupOption();
+setupOption($('#optionPart'));
 
 $("form").submit(function (event) {
     var mainContent = $('#mainContent');
@@ -42,11 +42,8 @@ $("form").submit(function (event) {
         // Resut answerList incase playing again.
         answerList = [];
 
-        var ops = document.getElementsByName("operation");
-        var operation = GetOperation(ops);
-
         for (var i = 0; i < numberOfQuestions; i++) {
-            AddEquation(operation, mainContent);
+            AddEquation($("input[name='operation']:checked").val(), mainContent);
         }
 
         mainContent.append('<input id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Done">');
@@ -80,9 +77,10 @@ $("form").submit(function (event) {
         currentState = GAMESTATE.GAMEOVER;
     }
     // If moving on after gameOver then setup replay.
-    else if(currentState == GAMEOVER){
-        setupOption();
+    else if(currentState == GAMESTATE.GAMEOVER){
         mainContent.empty();
+        setupOption($('#optionPart'));
+        
         currentState = GAMESTATE.MENU;
     }
     event.preventDefault();
@@ -90,47 +88,35 @@ $("form").submit(function (event) {
 });
 
 //Setup up option selection part at start.
-function setupOption(){
-    var optionPart = $('#optionPart');
-
-    optionPart.append('<h5>-Descriptions-</h5>');
-    optionPart.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
-    optionPart.append('<hr>');
+function setupOption(element){
+    element.append('<h5>-Descriptions-</h5>');
+    element.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
+    element.append('<hr>');
 
 
     // Setup operation checkbox options.
-    optionPart.append('<h5>-Operation-</h5>');
-    for(i = 0; i < OPERATION_LIST.length; i++){
-        // Add 'checked' for first checkbox option.
-        if(i==0)
-            optionPart.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'" checked>');
-        else
-            optionPart.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
-        optionPart.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
+    element.append('<h5>-Operation-</h5>');
+    
+    // Add 'checked' for first checkbox option.
+    element.append('<input type="radio" id="'+OPERATION_LIST[0][0]+'" name="operation" value="'+OPERATION_LIST[0][1]+'" checked>');
+    element.append('<label for="'+OPERATION_LIST[0][0]+'">'+OPERATION_LIST[0][2]+'</label><br>');
+    
+    for(i = 1; i < OPERATION_LIST.length; i++){
+            element.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
+            element.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
     }
-    optionPart.append('<hr>');
+    element.append('<hr>');
 
     // Setup dropdown part.
-    optionPart.append('<h5>-Number of Questions-</h5>');
+    element.append('<h5>-Number of Questions-</h5>');
     var selectSection = $('<select id="num" class="btn btn-secondary"></select>');
     for(i = 0; i < QuestionAmountOptions.length; i++){
         selectSection.append('<option value="'+QuestionAmountOptions[i]+'">'+QuestionAmountOptions[i]+' Questions</option>');
     }
-    optionPart.append(selectSection);
-    optionPart.append('<hr>');
+    element.append(selectSection);
+    element.append('<hr>');
 
-    optionPart.append('<input type="submit" value="Submit" class="btn btn-primary customButton">');
-}
-
-// Return the operation value that is checked in a checkbox that is passed in.
-function GetOperation(opsList) {
-    // Loop through every value in list to find the one that is checked and return the value.
-    for (i = 0; i < opsList.length; i++) {
-        if (opsList[i].checked)
-            return opsList[i].value;
-    }
-    // If none is found then return 0.
-    return 0;
+    element.append('<input type="submit" value="Submit" class="btn btn-primary customButton">');
 }
 
 // Return answer of passed in operation applied to two passed in numbers.
@@ -166,7 +152,6 @@ function AddEquation(operation, htmlPlacement) {
     answerList.push(answer);
 
     htmlPlacement.append("<hr>");
-
 }
 
 // Return total number of answers that match input and actual answer. Note that this is depended on answerList being filled before hand.
