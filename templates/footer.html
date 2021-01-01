@@ -1,15 +1,32 @@
 <div class="jumbotron text-center footerIn" style="margin-bottom:0">
-    <h5>Games</h5>
-    <hr>
     <div class="row">
-        <div class="col-md-3">
-            <a href="{{ url_for('game1') }}">Basic Operations</a>
+        <div class="col-md-8">
+            <h5>Games</h5>
+            <hr>
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="{{ url_for('game1') }}">Basic Operations</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('game2') }}">Chars Memory</a>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('game3') }}">Color Direction</a>
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <a href="{{ url_for('game2') }}">Chars Memory</a>
-        </div>
-        <div class="col-md-3">
-            <a href="{{ url_for('game3') }}">Color Direction</a>
+
+        <div class="col-md-4">
+            <h5>Other</h5>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="{{ url_for('about') }}">About</a>
+                </div>
+                <div class="col-md-6">
+                    <a href="{{ url_for('contact') }}">Contact</a>
+                </div>
+            </div>
         </div>
     </div>
 
