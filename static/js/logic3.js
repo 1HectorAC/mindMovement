@@ -31,10 +31,19 @@ function Initial(){
         }
         if ($(this).attr("value") == "ColorDisplay") {
             // Setup color with direction association depending on difficulty options.
-            if($('#difficulty').val() == "2")
-                ShuffleArray(selectedColors);
+            var difficultyValue = $('#difficulty').val();
 
             $('.MainContent').empty();
+
+
+            if(difficultyValue == "2")
+                selectedColors = ["red", "blue", "green", "yellow","HotPink","SlateBlue"];
+            else
+                selectedColors = ["red", "blue", "green", "yellow"];
+                
+            
+            ShuffleArray(selectedColors);
+
 
             SetupDirDisplay($(".MainContent"), selectedColors);
             $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
@@ -46,34 +55,39 @@ function Initial(){
         }
 
         //GameButtons
-        if ($(this).attr("value") == "Up") {
+        if ($(this).attr("value") == "Button1") {
             CheckColor(0);
         }
-        if ($(this).attr("value") == "Left") {
+        if ($(this).attr("value") == "Button2") {
             CheckColor(1);
         }
-        if ($(this).attr("value") == "Down") {
+        if ($(this).attr("value") == "Button3") {
             CheckColor(2);
         }
-        if ($(this).attr("value") == "Right") {
+        if ($(this).attr("value") == "Button4") {
             CheckColor(3);
+        }
+        if ($(this).attr("value") == "Button5") {
+            CheckColor(4);
+        }
+        if ($(this).attr("value") == "Button6") {
+            CheckColor(5);
         }
 
     });
 }
 
-
 //Setup the display for the start menu.
 function SetupStartMenu(element){
     element.append('<h5>-Instructions-</h5>');
-    element.append('<p>A random color will be shown in a square block. Your job is the hit the right direction key(Up, Down, Left, Right) associated with the color. Color Key association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
+    element.append('<p>A random color will be shown in a square block. Your job is the hit the right direction button associated with the color. Color-Button association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
     
     // Setup dropdown for difficulty settings.
     element.append("<hr>");
     element.append('<h5>-Difficulty-</h5>');
     var selectSection = $('<select id="difficulty" class="btn btn-secondary"></select>');
-    selectSection.append('<option value="1"> Easy (Static Color Directions)</option>');
-    selectSection.append('<option value="2"> Hard (Randomized Color Directions)</option>');
+    selectSection.append('<option value="1"> Easy (4 Colors)</option>');
+    selectSection.append('<option value="2"> Hard (6 Colors)</option>');
     element.append(selectSection);
     element.append("<hr>");
 
@@ -82,8 +96,15 @@ function SetupStartMenu(element){
 
 // Setup the display for directional color association.
 function SetupDirDisplay(element, displayColors){
-    // Setup color for text. Specifically to know where yellow is since it needs different colored text.
-    var textColor = ["white","white","white","white"];
+    var arrayLength = displayColors.length;
+    // Setup color for text.
+    var textColor;
+    if(arrayLength == 4){
+        textColor = ["white","white","white","white"];
+    }
+    else{
+        textColor = ["white","white","white","white","white","white"];
+    }
     for(i = 0; i < displayColors.length; i++){
         if(displayColors[i] == "yellow"){
             textColor[i] = "black";
@@ -96,22 +117,47 @@ function SetupDirDisplay(element, displayColors){
     var row2 = $('<div class="row"></div>');
     var row3 = $('<div class="row"></div>');
 
-    // The first row. (top)
-    var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+'; text-align:center;border-radius: 15px; "><p>Up</p></div>');
-    row1.append(c1);
+    if(arrayLength == 4){
+        // The first row. (top)
+        var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+'; text-align:center;border-radius: 15px; "><p>Up</p></div>');
+        row1.append(c1);
 
-    // The second row. (left, right)
-    var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+'; text-align:center;border-radius: 15px"><p>Left</p></div>');
-    var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: '+displayColors[3]+'; color: '+textColor[3]+';text-align:center;border-radius: 15px "><p>Right</p></div>');
-    row2.append(c2);
-    row2.append(c2_2);
+        // The second row. (center)
+        var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+'; text-align:center;border-radius: 15px"><p>Left</p></div>');
+        var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+';text-align:center;border-radius: 15px "><p>Right</p></div>');
+        row2.append(c2);
+        row2.append(c2_2);
 
-    // The bottom row. (bottom)
-    var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[2]+'; color:'+textColor[2]+'; text-align:center;border-radius: 15px "><p>Down</p></div>');
-    row3.append(c3);
+        // The bottom row. (bottom)
+        var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[3]+'; color:'+textColor[3]+'; text-align:center;border-radius: 15px "><p>Down</p></div>');
+        row3.append(c3);
+    }
+    else{
+        // The first row. (top)
+        var c1 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+'; text-align:center;border-radius: 15px; "><p>Upper Left</p></div>');
+        var c1_2 = $('<div class="col-md-2", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+'; text-align:center;border-radius: 15px"><p>Upper Right</p></div>');
+        row1.append(c1);
+        row1.append(c1_2);
+
+        // The second row. (center)
+        var c2 = $('<div class="col-md-2 offset-md-2", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+';text-align:center;border-radius: 15px "><p>Left</p></div>');
+        var c2_2 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[3]+'; color: '+textColor[3]+';text-align:center;border-radius: 15px "><p>Right</p></div>');
+
+        row2.append(c2);
+        row2.append(c2_2);
+
+        // The bottom row. (bottom)
+        var c3 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[4]+'; color:'+textColor[4]+'; text-align:center;border-radius: 15px "><p>Lower left</p></div>');
+        var c3_2 = $('<div class="col-md-2", style= "background-color: '+displayColors[5]+'; color: '+textColor[5]+';text-align:center;border-radius: 15px "><p>Lower Right</p></div>');
+
+        row3.append(c3);
+        row3.append(c3_2);
+
+    }
+
 
     // Add content to main class.
-    $(element).append('<p>Remeber what color goes with what direction before starting!</p>');
+    $(element).append('<p>Remeber what color goes with what button before starting!</p>');
     $(element).append(row1);
     $(element).append(row2);
     $(element).append(row3);
@@ -148,35 +194,11 @@ function PlayGame(){
     var cText = "<p id='boxText' style='text-align:center; font-size: 35px;'></p>";
     $(".MainContent").append('<div id="displayBox" style="width:200px; height:100px; line-height:100px; display: inline-block; border-radius: 15px;">'+cText+'</div>');
 
-    // Setup rows for each direction to display.
-    var row1 = $('<div class="row"></div>');
-    var row2 = $('<div class="row"></div>');
-    var row3 = $('<div class="row"></div>');
-
-    // The first row. (top)
-    var c1 = $('<button type="submit" class="col-md-2 offset-md-5 btn btn-dark" value="Up">Up</button>');
-    row1.append(c1);
-
-    // The second row. (left, right)
-    var c2 = $('<button type="submit"  class="col-md-2 offset-md-3 btn btn-dark" value="Left">Left</button>');
-    var c2_2 = $('<button type="submit"  class="col-md-2 offset-md-2 btn btn-dark" value="Right">Right</button>');
-    row2.append(c2);
-    row2.append(c2_2);
-
-    // The bottom row. (bottom)
-    var c3 = $('<button type="submit"  class="col-md-2 offset-md-5 btn btn-dark" value="Down">Down</button>');
-    row3.append(c3);
-
-    // Add content to main class.
-    $(".MainContent").append("<br>");
-    $(".MainContent").append("<br>");
-    $(".MainContent").append(row1);
-    $(".MainContent").append(row2);
-    $(".MainContent").append(row3);
-    $(".MainContent").append("<br>");
+    // Add buttons to hit.
+    SetupDirectionButtons($(".MainContent"), selectedColors.length);
 
     // Create new color to display.
-    NewColor();
+    NewColor(selectedColors.length);
 
     // Setup update for game timer.
     timer = setInterval(EndCountDown,1000);
@@ -184,9 +206,9 @@ function PlayGame(){
 }
 
 // This function will set the colorVar to a new value and display to page.
-function NewColor(){
+function NewColor(optionLength){
     // Set color to random number between 0 and 3.
-    colorVar = Math.floor(Math.random() * 4);
+    colorVar = Math.floor(Math.random() * optionLength);
 
     // Add color to screen.
     var textColor = "white";
@@ -234,7 +256,7 @@ function CheckColor(num){
     }
 
     // Set new value for the color variable.
-    NewColor();
+    NewColor(selectedColors.length);
 }
 
 // Clear screen and add game over content to page.
@@ -248,7 +270,7 @@ function EndGame(){
         $(".MainContent").append("<h1 style='color:red'>Game Over</h1>");
         $(".MainContent").append("<h5>Final Score: "+ score +"</h5>");
 
-        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="ColorDisplay">Play Again</button>');
+        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Directions">Play Again</button>');
 
 }
 
@@ -272,4 +294,58 @@ function ShuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+// Setup buttons buttons in game. Amount of buttons depends on passed in size variable(only 4 or 6).
+function SetupDirectionButtons(element, size){
+    // Setup rows for each direction to display.
+    var row1 = $('<div class="row"></div>');
+    var row2 = $('<div class="row"></div>');
+    var row3 = $('<div class="row"></div>');
+
+    if(size == 4){
+        // The first row. (top)
+        var c1 = $('<button type="submit" class="col-md-2 offset-md-5 btn btn-dark" value="Button1">Up</button>');
+        row1.append(c1);
+
+        // The second row. (center)
+        var c2 = $('<button type="submit"  class="col-md-2 offset-md-3 btn btn-dark" value="Button2">Left</button>');
+        var c2_2 = $('<button type="submit"  class="col-md-2 offset-md-2 btn btn-dark" value="Button3">Right</button>');
+        row2.append(c2);
+        row2.append(c2_2);
+
+        // The bottom row. (bottom)
+        var c3 = $('<button type="submit"  class="col-md-2 offset-md-5 btn btn-dark" value="Button4">Down</button>');
+        row3.append(c3);
+    }
+    else{
+        // The first row. (top)
+        var c1 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button1">Upper Left</button>');
+        var c1_2 = $('<button type="submit" class="col-md-2 btn btn-dark" value="Button2">Upper Right</button>');
+        row1.append(c1);
+        row1.append(c1_2);
+
+        // The second row. (center)
+        var c2 = $('<button type="submit" class="col-md-2 offset-md-2 btn btn-dark" value="Button3">Left</button>');
+        var c2_2 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button4">Right</button>');
+
+        row2.append(c2);
+        row2.append(c2_2);
+
+        // The bottom row. (bottom)
+        var c3 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button5">LowerLeft</button>');
+        var c3_2 = $('<button type="submit" class="col-md-2 btn btn-dark" value="Button6">LowerRight</button>');
+
+        row3.append(c3);
+        row3.append(c3_2);
+    }
+
+    // Add content to main class.
+    element.append("<br>");
+    element.append("<br>");
+    element.append(row1);
+    element.append(row2);
+    element.append(row3);
+    element.append("<br>");
+
 }
