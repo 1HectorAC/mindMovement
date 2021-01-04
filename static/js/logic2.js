@@ -11,6 +11,8 @@ var timer;
 // Variables used to set time.
 var maxCountDownTime = 2;
 var countDownTime = maxCountDownTime;
+// Affects rate at which time will change. Value depends on difficulty set.
+var timeChangeRate = 1;
 
 var maxLives = 1;
 var lives = maxLives;
@@ -25,16 +27,16 @@ $("body").on('click', 'button', function(ev) {
         $(".MainContent").empty();
 
         if(difficulty == "Easy"){
-            maxLives = 4;
+            maxLives = 3;
             lives = maxLives;
-            maxCountDownTime = 6;
-            countDownTime = maxCountDownTime;
+            timeChangeRate = .5;
+
         }
         else if(difficulty == "Hard"){
             maxLives = 2;
             lives = maxLives;
-            maxCountDownTime = 3;
-            countDownTime = maxCountDownTime;
+            timeChangeRate = 2;
+            
         }
 
         // Set Round. Important for restarting game.
@@ -56,8 +58,8 @@ $("body").on('click', 'button', function(ev) {
 
         // Hit or miss check.
         if(randomString == enteredString){
-            round++;
-            $('#round').text(round);
+            // Update display of variables.
+            $('#round').text(++round);
             if(round > hightestRound)
                 hightestRound = round;
             
@@ -65,6 +67,7 @@ $("body").on('click', 'button', function(ev) {
             TempStringDisplaySetup($(".MainContent"));
         }
         else{
+            // Update display of variables.
             $("#lives").text(--lives);
             if(round > 1){
                 $('#round').text(--round);
@@ -73,11 +76,6 @@ $("body").on('click', 'button', function(ev) {
             // GameOver Check.
             if(lives <= 0){
                 ResultsScreen($(".MainContent"),enteredString,"GameOver");
-
-                // Reset a few variables for if playing again.
-                lives = maxLives;
-                round = 1;
-                hightestRound = round;
             }
             else{
                 // Add results screen to compare answer with actual answer.
@@ -85,6 +83,7 @@ $("body").on('click', 'button', function(ev) {
 
             }
         }
+
     }
     if ($(this).attr("value") == "AfterLoss") {
         $('#resultItems').remove();
@@ -97,6 +96,11 @@ $("body").on('click', 'button', function(ev) {
     }
     if ($(this).attr("value") == "GameOver") {
         $(".MainContent").empty();
+        
+        // Reset a few variables for if playing again.
+        lives = maxLives;
+        round = 1;
+        hightestRound = round;
         EndGameScreen($(".MainContent"));
     }
 });
@@ -111,8 +115,8 @@ function DirectionsScreen(element){
     // Setup dropdown for difficulty settings.
     screenItems.append('<h5>-Difficulty-</h5>');
     var selectSection = $('<select id="difficulty" class="btn btn-secondary"></select>');
-    selectSection.append('<option value="Easy"> Easy (6 seconds, 4 lives)</option>');
-    selectSection.append('<option value="Hard"> Hard (3 seconds, 2 lives)</option>');
+    selectSection.append('<option value="Easy"> Easy (3 Lives, More Time)</option>');
+    selectSection.append('<option value="Hard"> Hard (2 Lives, Less Time)</option>');
     screenItems.append(selectSection);
     
     screenItems.append("<hr>");
@@ -125,6 +129,9 @@ function TempStringDisplaySetup(element){
     // Need to setup randomString for display. Will also be used later to compare with a answer of user.
     randomString = SetupRandomString(round+ 2);
     
+    // Reset Timer for removing temp string portion display.
+    countDownTime = Math.ceil(round / timeChangeRate) + 2;
+
     var displayElements = $('<div id="tempDisplay"></div>')
     displayElements.append('<p id="reminder" style="margin-bottom: 2px">Remember string below!</p>');
     displayElements.append('<h1 id="displayString">'+ randomString +'</h1>');
@@ -149,7 +156,6 @@ function CountDownAction(){
         $('#tempDisplay').remove();
         
         clearInterval(timer);
-        countDownTime = maxCountDownTime;
 
         // Added senction for input.
         SetupInputSection($('.MainContent'));
