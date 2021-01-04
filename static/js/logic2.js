@@ -65,11 +65,14 @@ $("body").on('click', 'button', function(ev) {
             TempStringDisplaySetup($(".MainContent"));
         }
         else{
-            lives--;
+            $("#lives").text(--lives);
+            if(round > 1){
+                $('#round').text(--round);
+            }
+
             // GameOver Check.
             if(lives <= 0){
-                $(".MainContent").empty();
-                EndGameScreen($(".MainContent"));
+                ResultsScreen($(".MainContent"),enteredString,"GameOver");
 
                 // Reset a few variables for if playing again.
                 lives = maxLives;
@@ -77,15 +80,8 @@ $("body").on('click', 'button', function(ev) {
                 hightestRound = round;
             }
             else{
-                $("#lives").text(lives);
-    
-                if(round > 1){
-                    round--;
-                    $('#round').text(round);
-                }
-
                 // Add results screen to compare answer with actual answer.
-                ResultsScreen($(".MainContent"),enteredString);
+                ResultsScreen($(".MainContent"),enteredString,"AfterLoss");
 
             }
         }
@@ -98,6 +94,10 @@ $("body").on('click', 'button', function(ev) {
     if ($(this).attr("value") == "Instructions") {
         $(".MainContent").empty();
         DirectionsScreen($(".MainContent"));
+    }
+    if ($(this).attr("value") == "GameOver") {
+        $(".MainContent").empty();
+        EndGameScreen($(".MainContent"));
     }
 });
 
@@ -167,8 +167,8 @@ function SetupInputSection(element) {
     element.append(inputSection);
 }
 
-// Setup items for results screen.
-function ResultsScreen(element, inputedChar){
+// Setup items for results screen. element in the html element to add items. inputedChar if for display. buttonValue affect where the button will lead to.
+function ResultsScreen(element, inputedChar, buttonValue){
     var resultItems = $('<div id="resultItems"></div>');
     resultItems.append('<p id="hitMessage" style="font-size:20px; margin-bottom: 2px; color:red">Miss</p>');
 
@@ -194,7 +194,7 @@ function ResultsScreen(element, inputedChar){
         resultItems.append('<h5>Your Answer: '+fHalf+'<span style="color:red">'+sHalf+'</span></h5>');
     }
 
-    resultItems.append('<button type="submit" value="AfterLoss" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">Next</button>');
+    resultItems.append('<button type="submit" value="'+buttonValue+'" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">Next</button>');
     element.append(resultItems);
 }
 
