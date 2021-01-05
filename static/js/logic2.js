@@ -17,6 +17,8 @@ var timeChangeRate = 1;
 var maxLives = 1;
 var lives = maxLives;
 
+var skips = 2;
+
 DirectionsScreen($(".MainContent"));
 
 $("body").on('click', 'button', function(ev) {
@@ -103,6 +105,12 @@ $("body").on('click', 'button', function(ev) {
         hightestRound = round;
         EndGameScreen($(".MainContent"));
     }
+
+    if ($(this).attr("value") == "Skip") {
+        skips--;
+        $(".inputSection").remove();
+        TempStringDisplaySetup($(".MainContent"));
+    }
 });
 
 // Setup items for directions screen.
@@ -165,11 +173,20 @@ function CountDownAction(){
 
 // Setup parts to accepts inputs in a textbox and a submit button.
 function SetupInputSection(element) {
-    //Setup items to add to display.
+    // Setup items to add to display.
     var inputSection = $('<div class="inputSection"/>');
     inputSection.append('<input  class="form-control" id="EnterChar" style="width:50%;display: inline-block; font-size: 30px; text-align:center" placeholder="Enter string here!" maxlength="50">');
     inputSection.append('</br>');
+
+    // Add submit answer button.
     inputSection.append('<button type="submit" value="SubmitAnswer" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">Enter</button>');
+    
+    // Add skip button. Need to disable if no more skips left.
+    if(skips <= 0)
+        inputSection.append('<button type="submit" value="Skip" class="btn btn-primary customButton" style="Margin-top:10px" disabled>Skip ('+skips+')</button>');
+    else
+        inputSection.append('<button type="submit" value="Skip" class="btn btn-primary customButton" style="Margin-top:10px">Skip ('+skips+')</button>');
+    
     element.append(inputSection);
 }
 
