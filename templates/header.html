@@ -1,22 +1,8 @@
-<div class="jumbotron topPanel" style="background-image: linear-gradient(#0019d9, #4274ff);">
-    <div class="row">
-        <div class="col-md-2">
-            <a href="{{ url_for('main') }}">
-                <img src="/static/img/mm2.png" alt="" height="120" width="120">
-            </a>
-        </div>
-        <div class="col-md-9" style="border-radius: 15px; text-shadow: black 0.1em 0.1em 0.2em " >
-            <h1 style="font-size: 45px; "><b>Mind Movement</b></h1>
-            <p class="lead">Improve your mind with fun little brain games at Mind Movment!</p>
-
-        </div>
-    </div>
-
-</div>
-
 <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
-    <!-- Brand -->
-    <a class="navbar-brand" href="{{ url_for('main') }}">Home</a>
+    <!-- Brand logo -->
+    <a class="navbar-brand" href="{{ url_for('main') }}">
+        <img src="/static/img/mm2.png" alt="Logo" style="width:40px;">
+    </a>
 
     <!-- Toggler/collapsibe Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
