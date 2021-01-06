@@ -9,7 +9,7 @@ var score = 0;
 var lives = 3;
 
 // Variables to keep track of time.
-var maxCountDownTime = 30;
+var maxCountDownTime = 10;
 var countDownTime = maxCountDownTime;
 var timer;
 
@@ -52,6 +52,14 @@ function Initial(){
         if ($(this).attr("value") == "Play") {
             $('.MainContent').empty();
             PlayGame();
+        }
+        if ($(this).attr("value") == "PlayAgain") {
+            $('.MainContent').empty();
+
+            ShuffleArray(selectedColors);
+
+            SetupDirDisplay($(".MainContent"), selectedColors);
+            $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
         }
 
         //GameButtons
@@ -235,10 +243,6 @@ function CheckColor(num){
     else{
         // Reset hitStreak after missing.
         hitStreak = 0;
-
-        // Added check to prevent score from going to lower than 0.
-        if(score > 0)
-            score--;
         
         // Subtract from lives and end game if out of lives.
         // Lives needs to be greater than 1 given that it will subtract from it and the result needs to be greater than 0.
@@ -269,8 +273,8 @@ function EndGame(){
 
         $(".MainContent").append("<h1 style='color:red'>Game Over</h1>");
         $(".MainContent").append("<h5>Final Score: "+ score +"</h5>");
-
-        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Directions">Play Again</button>');
+        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="PlayAgain">Play Again</button>');
+        $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Directions">Directions</button>');
 
 }
 
