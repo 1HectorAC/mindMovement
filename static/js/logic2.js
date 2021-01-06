@@ -56,36 +56,41 @@ $("body").on('click', 'button', function(ev) {
     if ($(this).attr("value") == "SubmitAnswer") {
         var enteredString = $('#EnterChar').val();
 
-        $(".inputSection").remove();
-
-        // Hit or miss check.
-        if(randomString == enteredString){
-            // Update display of variables.
-            $('#round').text(++round);
-            if(round > hightestRound)
-                hightestRound = round;
-            
-            // Setup for another round.
-            TempStringDisplaySetup($(".MainContent"));
+        // Add check for empty string and prevent moving forward until something is entered.
+        if(enteredString == ""){
+            $("#stringWarning").text("Please enter something.");
         }
         else{
-            // Update display of variables.
-            $("#lives").text(--lives);
-            if(round > 1){
-                $('#round').text(--round);
-            }
+            $(".inputSection").remove();
 
-            // GameOver Check.
-            if(lives <= 0){
-                ResultsScreen($(".MainContent"),enteredString,"GameOver");
+            // Hit or miss check.
+            if(randomString == enteredString){
+                // Update display of variables.
+                $('#round').text(++round);
+                if(round > hightestRound)
+                    hightestRound = round;
+                
+                // Setup for another round.
+                TempStringDisplaySetup($(".MainContent"));
             }
             else{
-                // Add results screen to compare answer with actual answer.
-                ResultsScreen($(".MainContent"),enteredString,"AfterLoss");
-
+                // Update display of variables.
+                $("#lives").text(--lives);
+                if(round > 1){
+                    $('#round').text(--round);
+                }
+    
+                // GameOver Check.
+                if(lives <= 0){
+                    ResultsScreen($(".MainContent"),enteredString,"GameOver");
+                }
+                else{
+                    // Add results screen to compare answer with actual answer.
+                    ResultsScreen($(".MainContent"),enteredString,"AfterLoss");
+    
+                }
             }
         }
-
     }
     if ($(this).attr("value") == "AfterLoss") {
         $('#resultItems').remove();
@@ -187,6 +192,9 @@ function SetupInputSection(element) {
     else
         inputSection.append('<button type="submit" value="Skip" class="btn btn-primary customButton" style="Margin-top:10px">Skip ('+skips+')</button>');
     
+    // Empty string warning. Just adding placement.
+    inputSection.append('<p id="stringWarning" style="color:red"><p>');
+
     element.append(inputSection);
 }
 
