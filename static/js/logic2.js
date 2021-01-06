@@ -101,13 +101,28 @@ $("body").on('click', 'button', function(ev) {
         $(".MainContent").empty();
         DirectionsScreen($(".MainContent"));
     }
-    if ($(this).attr("value") == "GameOver") {
-        $(".MainContent").empty();
-        
-        // Reset a few variables for if playing again.
+    if ($(this).attr("value") == "PlayAgain") {
+        // Remove game over screen items.
+        $("#gameOverItems").remove();
+
+        // Reset settings.
         lives = maxLives;
         round = 1;
         hightestRound = round;
+
+        // Reset display variables.
+        var gameVars = $("<div id='gameVars' class='row'>");
+        gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
+        gameVars.append("<div class='offset-md-8 col-md-2'>Level:<br><p id='round'>" + round + "</p></div>");
+        $(".MainContent").append(gameVars);
+        $(".MainContent").append('<hr>');
+
+        TempStringDisplaySetup($(".MainContent"));
+    }
+
+    if ($(this).attr("value") == "GameOver") {
+        $(".MainContent").empty();
+        
         EndGameScreen($(".MainContent"));
     }
 
@@ -231,10 +246,11 @@ function ResultsScreen(element, inputedChar, buttonValue){
 
 // Setup items for end game screen.
 function EndGameScreen(element){
-    var endGameItems = $('<div></div>');
+    var endGameItems = $('<div id="gameOverItems"></div>');
     endGameItems.append('<h1 style="color:red">Game Over</h1>');
     endGameItems.append('<h5>Highest Round Reached: '+hightestRound+'</h5>');
-    endGameItems.append('<button type="submit" value="Instructions" class="btn btn-primary customButton" style="Margin-top:10px">Retry</button>');
+    endGameItems.append('<button type="submit" value="PlayAgain" class="btn btn-primary customButton" style="Margin-top:10px">Retry</button>');
+    endGameItems.append('<button type="submit" value="Instructions" class="btn btn-primary customButton" style="Margin-top:10px">Directions</button>');
 
     element.append(endGameItems);
 }
