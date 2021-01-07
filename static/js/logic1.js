@@ -1,10 +1,3 @@
-// Manage state of game.
-const GAMESTATE = {
-    MENU: 0,
-    PLAY: 1,
-    GAMEOVER: 2
-}
-
 // Manage operation parts need for setting up the option. (element id, checkbox value, element label).
 const OPERATION_LIST = [
     ["add", "+", "Addition (+)"],
@@ -15,10 +8,10 @@ const OPERATION_LIST = [
 // The options for how many questions a game can have.
 const QuestionAmountOptions = [5, 10, 15];
 
-var currentState = GAMESTATE.MENU;
-
 // Number of Questions in game.
-var numberOfQuestions = 5;
+var numberOfQuestions = 0;
+
+var selectedOperation;
 
 // Max number possible for equation question.
 var MaxNumberOption = 9;
@@ -29,35 +22,29 @@ var answerList = [];
 var currentTime = 0;
 var timer;
 
-setupOption($('#optionPart'));
+SetupDirectionsContent($('#mainContent'));
 
-$("form").submit(function (event) {
-    var mainContent = $('#mainContent');
-
-    // If in the menu state then move one to starting game.
-    if (currentState == GAMESTATE.MENU) {
-        //Setup Number of questions variable.
+$("body").on('click', 'button', function(ev) {
+    ev.preventDefault()
+    if ($(this).attr("value") == "Play") {
+        //Setup setting variables.
         numberOfQuestions = parseInt($('#num').val());
+        selectedOperation = $("input[name='operation']:checked").val();
 
-        // Resut answerList incase playing again.
+        $('#mainContent').empty();
+
+        // Setup some variables with initial value.
         answerList = [];
+        currentTime = 0;
 
-        for (var i = 0; i < numberOfQuestions; i++) {
-            AddEquation($("input[name='operation']:checked").val(), mainContent);
-        }
+        // Add on screen game items.
+        SetupGameContent($('#mainContent'), numberOfQuestions, selectedOperation);
 
-        mainContent.append('<input id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Done">');
-
-        // Clear the form.
-        $('#optionPart').empty();
-
-        //Add game timer.
+        // Add game timer.
         timer = setInterval(IncrementTime,1000);
 
-        currentState = GAMESTATE.PLAY;
     }
-    // If Moving on after playing then move on the the gameOver screen.
-    else if(currentState == GAMESTATE.PLAY){
+    else if ($(this).attr("value") == "Results") {
         // Remove Submit answers button.
         $('#submitAnswer').remove();
 
@@ -70,53 +57,78 @@ $("form").submit(function (event) {
         AddCorrectStatements($('.entryFieldClass'));
 
         // Calculate Results and display.
-        mainContent.append('<h2>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' / '+ numberOfQuestions +'</h2>');
-        mainContent.append('<h2>Time: '+currentTime+' Seconds.</h2>');
+        $('#mainContent').append('<h2>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' / '+ numberOfQuestions +'</h2>');
+        $('#mainContent').append('<h2>Time: '+currentTime+' Seconds.</h2>');
 
-        mainContent.append('<input id="submitRetry" class="btn btn-primary customButton" type="submit" value="Retry">');
-        currentState = GAMESTATE.GAMEOVER;
+        $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Retry">Retry</button>');
+        $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Directions">Directions</button>');
+ 
     }
-    // If moving on after gameOver then setup replay.
-    else if(currentState == GAMESTATE.GAMEOVER){
-        mainContent.empty();
-        setupOption($('#optionPart'));
-        
-        currentState = GAMESTATE.MENU;
-    }
-    event.preventDefault();
+    else if ($(this).attr("value") == "Retry") {
+        $('#mainContent').empty();
 
+        // Setup some variables with initial value.
+        answerList = [];
+        currentTime = 0;
+
+        // Add on screen game items.
+        SetupGameContent($('#mainContent'), numberOfQuestions, selectedOperation);
+
+        //Add game timer.
+        timer = setInterval(IncrementTime,1000);
+
+    }
+    else if ($(this).attr("value") == "Directions") {
+        $('#mainContent').empty();
+        SetupDirectionsContent($('#mainContent'));
+    }
 });
 
-//Setup up option selection part at start.
-function setupOption(element){
-    element.append('<h5>-Descriptions-</h5>');
-    element.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
-    element.append('<hr>');
-
+// Setup on screen items for directions.
+function SetupDirectionsContent(element){
+    var directionItems = $("<div id='directionItems'></div>")
+    directionItems.append('<h5>-Descriptions-</h5>');
+    directionItems.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
+    directionItems.append('<hr>');
 
     // Setup operation checkbox options.
-    element.append('<h5>-Operation-</h5>');
+    directionItems.append('<h5>-Operation-</h5>');
     
     // Add 'checked' for first checkbox option.
-    element.append('<input type="radio" id="'+OPERATION_LIST[0][0]+'" name="operation" value="'+OPERATION_LIST[0][1]+'" checked>');
-    element.append('<label for="'+OPERATION_LIST[0][0]+'">'+OPERATION_LIST[0][2]+'</label><br>');
+    directionItems.append('<input type="radio" id="'+OPERATION_LIST[0][0]+'" name="operation" value="'+OPERATION_LIST[0][1]+'" checked>');
+    directionItems.append('<label for="'+OPERATION_LIST[0][0]+'">'+OPERATION_LIST[0][2]+'</label><br>');
     
     for(i = 1; i < OPERATION_LIST.length; i++){
-            element.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
-            element.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
+        directionItems.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
+        directionItems.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
     }
-    element.append('<hr>');
+    directionItems.append('<hr>');
 
     // Setup dropdown part.
-    element.append('<h5>-Number of Questions-</h5>');
+    directionItems.append('<h5>-Number of Questions-</h5>');
     var selectSection = $('<select id="num" class="btn btn-secondary"></select>');
     for(i = 0; i < QuestionAmountOptions.length; i++){
         selectSection.append('<option value="'+QuestionAmountOptions[i]+'">'+QuestionAmountOptions[i]+' Questions</option>');
     }
-    element.append(selectSection);
-    element.append('<hr>');
+    directionItems.append(selectSection);
+    directionItems.append('<hr>');
 
-    element.append('<input type="submit" value="Submit" class="btn btn-primary customButton">');
+    directionItems.append('<button type="submit" value="Play" class="btn btn-primary customButton">Play</button>');
+
+    element.append(directionItems);
+}
+
+// Setup on screen items for game.
+function SetupGameContent(element, questions, operation){
+    var gameItems = $("<div id='gameItems'></div>");
+
+    // Add equations.
+    for (var i = 0; i < questions; i++) {
+        AddEquation(operation, gameItems);
+    }
+
+    gameItems.append('<button id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Results">Done</button>');
+    element.append(gameItems);
 }
 
 // Return answer of passed in operation applied to two passed in numbers.
@@ -136,22 +148,22 @@ function GetOperationAnswer(one, two, operation) {
     }
 }
 
-// Add equation question to the passed in element "htmlPlacement".
-function AddEquation(operation, htmlPlacement) {
+// Add equation question to the passed in element.
+function AddEquation(operation, element) {
     var one = Math.floor(Math.random() * MaxNumberOption);
     var two = Math.floor(Math.random() * MaxNumberOption);
     var answer = GetOperationAnswer(one, two, operation);
 
     // Add Equation.
-    htmlPlacement.append('<h1 class="equationField">' + one + operation + two + '=</h1>');
+    element.append('<h1 class="equationField">' + one + operation + two + '=</h1>');
 
     // Add field to enter answer.
-    htmlPlacement.append('<input class="entryFieldClass" type="number" min="-99" max="99" required="" >');
+    element.append('<input class="entryFieldClass" type="number" min="-99" max="99" required="" >');
 
     //Add answer to answerList.
     answerList.push(answer);
 
-    htmlPlacement.append("<hr>");
+    element.append("<hr>");
 }
 
 // Return total number of answers that match input and actual answer. Note that this is depended on answerList being filled before hand.
