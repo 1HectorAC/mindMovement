@@ -45,24 +45,35 @@ $("body").on('click', 'button', function(ev) {
 
     }
     else if ($(this).attr("value") == "Results") {
-        // Remove Submit answers button.
-        $('#submitAnswer').remove();
+        // List of entries by player.
+        var entryList = $('.entryFieldClass');
+        
+        // Check if any value in List is empty and give warning if so.
+        if(ContainsEmptyString(entryList)){
+            $('#error').text("You forgot to answer some equations.");
+        }
+        else{
+            $('#error').remove();
+            
+            // Remove Submit answers button.
+            $('#submitAnswer').remove();
 
-        clearInterval(timer);
+            clearInterval(timer);
 
-        // Make answer textbox unchangable.
-        $('.entryFieldClass').prop('disabled', true);
+            // Make answer textbox unchangable.
+            entryList.prop('disabled', true);
 
-        // Add correct statements to equations
-        AddCorrectStatements($('.entryFieldClass'));
+            // Add correct statements to equations
+            AddCorrectStatements(entryList);
 
-        // Calculate Results and display.
-        $('#mainContent').append('<h2>Total Correct: '+GetAnswerTotal($('.entryFieldClass'))+' / '+ numberOfQuestions +'</h2>');
-        $('#mainContent').append('<h2>Time: '+currentTime+' Seconds.</h2>');
+            // Calculate Results and display.
+            $('#mainContent').append('<h2>Total Correct: '+GetAnswerTotal(entryList)+' / '+ numberOfQuestions +'</h2>');
+            $('#mainContent').append('<h2>Time: '+currentTime+' Seconds.</h2>');
 
-        $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Retry">Retry</button>');
-        $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Directions">Directions</button>');
- 
+            $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Retry">Retry</button>');
+            $('#mainContent').append('<button class="btn btn-primary customButton" type="submit" value="Directions">Directions</button>');
+            
+        }
     }
     else if ($(this).attr("value") == "Retry") {
         $('#mainContent').empty();
@@ -128,6 +139,7 @@ function SetupGameContent(element, questions, operation){
     }
 
     gameItems.append('<button id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Results">Done</button>');
+    gameItems.append('<p id="error" style="color:red"></p>');
     element.append(gameItems);
 }
 
@@ -192,4 +204,13 @@ function AddCorrectStatements(entryClassList){
 // Increment the currentTime value.
 function IncrementTime(){
     currentTime++;
+}
+
+function ContainsEmptyString(list){
+    for(i = 0; i < list.length; i++){
+        if(list[i].value == ""){
+            return true; 
+        }
+    }
+    return false;
 }
