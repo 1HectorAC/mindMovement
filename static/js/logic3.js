@@ -9,7 +9,7 @@ var score = 0;
 var lives = 3;
 
 // Variables to keep track of time.
-var maxCountDownTime = 10;
+var maxCountDownTime = 30;
 var countDownTime = maxCountDownTime;
 var timer;
 
@@ -273,6 +273,7 @@ function EndGame(){
 
         $(".MainContent").append("<h1 style='color:red'>Game Over</h1>");
         $(".MainContent").append("<h5>Final Score: "+ score +"</h5>");
+        $(".MainContent").append("</br>");
         $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="PlayAgain">Play Again</button>');
         $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Directions">Directions</button>');
 
