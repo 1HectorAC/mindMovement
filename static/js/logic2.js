@@ -222,6 +222,25 @@ function ResultsScreen(element, inputedChar, buttonValue){
 
     var indexPoint = DifferenceIndex(randomString,inputedChar);
 
+    var correctString;
+    var incorrectString;
+    // Case where shortest string matches with start of longest string.
+    if(indexPoint == -1){
+        correctString = inputedChar;
+        incorrectString = "";
+    }
+    // Case where shortest string didn't matches with start of longest string.
+    else{
+        correctString = inputedChar.substring(0,indexPoint);
+        incorrectString = inputedChar.substring(indexPoint, inputedChar.length);
+    }
+    if(inputedChar.length < randomString.length){
+        var lengthDif = randomString.length - inputedChar.length;
+        incorrectString+= "_".repeat(lengthDif) ;
+    }
+
+    resultItems.append('<h5>Your Answer: '+correctString+'<span style="color:red">'+incorrectString+'</span></h5>');
+    /*
     // Setup display of inputed string with correction.
     if(indexPoint != -1){
         var fHalf = inputedChar.substring(0,indexPoint);
@@ -238,7 +257,8 @@ function ResultsScreen(element, inputedChar, buttonValue){
         var fHalf = inputedChar.substring(0,randomString.length);
         var sHalf = inputedChar.substring(randomString.length, inputedChar.length);
         resultItems.append('<h5>Your Answer: '+fHalf+'<span style="color:red">'+sHalf+'</span></h5>');
-    }
+    }*/
+
 
     resultItems.append('<button type="submit" value="'+buttonValue+'" id="submit" class="btn btn-primary customButton" style="Margin-top:10px">Next</button>');
     element.append(resultItems);
