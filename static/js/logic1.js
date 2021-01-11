@@ -97,36 +97,45 @@ $("body").on('click', 'button', function(ev) {
 
 // Setup on screen items for directions.
 function SetupDirectionsContent(element){
-    var directionItems = $("<div id='directionItems'></div>")
-    directionItems.append('<h5>-Descriptions-</h5>');
-    directionItems.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
-    directionItems.append('<hr>');
+
+    var leftSide = $('<div class="jumbotron" style="background-color:#1b4ffa;color:white"></div>');
+    var rightSide = $('<div class="jumbotron" style="background-color:white;color:#1b4ffa"></div>');
+
+    // Setup directions display.
+    leftSide.append('<h4>-Description-</h4>');
+    leftSide.append("<hr class='whiteLine'>");
+    leftSide.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
+
+    // Setup setting display.
+    rightSide.append('<h4>-Settings-</h4>');
+    rightSide.append("<hr class='blueLine'>");
 
     // Setup operation checkbox options.
-    directionItems.append('<h5>-Operation-</h5>');
-    
+    rightSide.append('<h5>-Operation-</h5>');
     // Add 'checked' for first checkbox option.
-    directionItems.append('<input type="radio" id="'+OPERATION_LIST[0][0]+'" name="operation" value="'+OPERATION_LIST[0][1]+'" checked>');
-    directionItems.append('<label for="'+OPERATION_LIST[0][0]+'">'+OPERATION_LIST[0][2]+'</label><br>');
-    
+    rightSide.append('<input type="radio" id="'+OPERATION_LIST[0][0]+'" name="operation" value="'+OPERATION_LIST[0][1]+'" checked>');
+    rightSide.append('<label for="'+OPERATION_LIST[0][0]+'">'+OPERATION_LIST[0][2]+'</label><br>');
     for(i = 1; i < OPERATION_LIST.length; i++){
-        directionItems.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
-        directionItems.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
+        rightSide.append('<input type="radio" id="'+OPERATION_LIST[i][0]+'" name="operation" value="'+OPERATION_LIST[i][1]+'">');
+        rightSide.append('<label for="'+OPERATION_LIST[i][0]+'">'+OPERATION_LIST[i][2]+'</label><br>');
     }
-    directionItems.append('<hr>');
+    rightSide.append('<hr>');
 
     // Setup dropdown part.
-    directionItems.append('<h5>-Number of Questions-</h5>');
+    rightSide.append('<h5>-Number of Questions-</h5>');
     var selectSection = $('<select id="num" class="btn btn-secondary"></select>');
     for(i = 0; i < QuestionAmountOptions.length; i++){
         selectSection.append('<option value="'+QuestionAmountOptions[i]+'">'+QuestionAmountOptions[i]+' Questions</option>');
     }
-    directionItems.append(selectSection);
-    directionItems.append('<hr>');
+    rightSide.append(selectSection);
+    rightSide.append('<hr>');
 
-    directionItems.append('<button type="submit" value="Play" class="btn btn-primary customButton">Play</button>');
+    rightSide.append('<button type="submit" value="Play" class="btn btn-primary customButton">Play</button>');
 
-    element.append(directionItems);
+    var row = $('<div class="row" id="directionItems"></div');
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(leftSide));
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(rightSide));
+    element.append(row);
 }
 
 // Setup on screen items for game.

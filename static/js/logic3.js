@@ -87,19 +87,30 @@ function Initial(){
 
 //Setup the display for the start menu.
 function SetupStartMenu(element){
-    element.append('<h5>-Instructions-</h5>');
-    element.append('<p>A random color will be shown in a square block. Your job is the hit the right direction button associated with the color. Color-Button association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
+    var leftSide = $('<div class="jumbotron" style="background-color:#1b4ffa;color:white"></div>');
+    var rightSide = $('<div class="jumbotron" style="background-color:white;color:#1b4ffa"></div>');
+
+    leftSide.append("<h4>-Description-</h4>");
+    leftSide.append("<hr class='whiteLine'>");
+    leftSide.append('<p>A random color will be shown in a square block. Your job is the hit the right direction button associated with the color. Color-Button association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
     
     // Setup dropdown for difficulty settings.
-    element.append("<hr>");
-    element.append('<h5>-Difficulty-</h5>');
+    rightSide.append('<h4>-Settings-</h4>');
+    rightSide.append("<hr class='blueLine'>");
+    rightSide.append('<h5>-Difficulty-</h5>');
     var selectSection = $('<select id="difficulty" class="btn btn-secondary"></select>');
     selectSection.append('<option value="1"> Easy (4 Colors)</option>');
     selectSection.append('<option value="2"> Hard (6 Colors)</option>');
-    element.append(selectSection);
-    element.append("<hr>");
+    rightSide.append(selectSection);
 
-    element.append('<button type="submit" class="btn btn-primary customButton" value="ColorDisplay">Next</button>');
+    rightSide.append("<hr>");
+    rightSide.append('<button type="submit" class="btn btn-primary customButton" value="ColorDisplay">Next</button>');
+
+    // Add both left and right side items to screen.
+    var row = $('<div class="row"></div');
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(leftSide));
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(rightSide));
+    element.append(row);
 }
 
 // Setup the display for directional color association.

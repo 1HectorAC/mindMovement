@@ -135,21 +135,30 @@ $("body").on('click', 'button', function(ev) {
 
 // Setup items for directions screen.
 function DirectionsScreen(element){
-    var screenItems = $("<div></div>");
-    screenItems.append("<h5>-Instructions-</h5>");
-    screenItems.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter. The difficulty settings will affect how a long a string is displayed and amount of lives.</p>");
-    screenItems.append("<hr>");
+    var leftSide = $('<div class="jumbotron" style="background-color:#1b4ffa;color:white"></div>');
+    var rightSide = $('<div class="jumbotron" style="background-color:white;color:#1b4ffa"></div>');
+
+    leftSide.append("<h4>-Description-</h4>");
+    leftSide.append("<hr class='whiteLine'>");
+    leftSide.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter. The difficulty settings will affect how a long a string is displayed and amount of lives.</p>");
 
     // Setup dropdown for difficulty settings.
-    screenItems.append('<h5>-Difficulty-</h5>');
+    rightSide.append('<h4>-Settings-</h4>');
+    rightSide.append("<hr class='blueLine'>");
+    rightSide.append('<h5>-Difficulty-</h5>');
     var selectSection = $('<select id="difficulty" class="btn btn-secondary"></select>');
     selectSection.append('<option value="Easy"> Easy (3 Lives, More Time)</option>');
     selectSection.append('<option value="Hard"> Hard (2 Lives, Less Time)</option>');
-    screenItems.append(selectSection);
+    rightSide.append(selectSection);
     
-    screenItems.append("<hr>");
-    screenItems.append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
-    element.append(screenItems);
+    rightSide.append("<hr>");
+    rightSide.append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
+    
+    // Add both left and right side items to screen.
+    var row = $('<div class="row"></div');
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(leftSide));
+    row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(rightSide));
+    element.append(row);
 }
 
 // Setup screen for temporary string display. This includes timer to start next part.

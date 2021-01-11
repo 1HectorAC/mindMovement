@@ -64,3 +64,17 @@
     border-radius: 50%;
     display: inline-block;
 }
+
+/* For white line hr tags*/
+.whiteLine{
+    background-color: white;
+    height: 1px;
+    border: 0;
+}
+
+/* For white line hr tags*/
+.blueLine{
+    background-color: #1b4ffa; 
+    height: 1px; 
+    border: 0;
+}
