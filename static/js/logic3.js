@@ -92,8 +92,16 @@ function SetupStartMenu(element){
 
     leftSide.append("<h4>-Description-</h4>");
     leftSide.append("<hr class='whiteLine'>");
-    leftSide.append('<p>A random color will be shown in a square block. Your job is the hit the right direction button associated with the color. Color-Button association will be shown beforehand. The game ends if you miss 3 or after 30 seconds.</p>');
-    
+    leftSide.append('<p>Memorize the color-button association and then hit the button associated with the color that appears!</p>');
+    leftSide.append('<p>First a screen will appear showing buttons that are colored in. You should memorize what color goes with what button and then hit Play.</p>');
+    leftSide.append('<p>A colored square will appear and there will be some colorless buttons in the bottom. It is your job to hit the right button that was associated with the color shown.</p>');
+    leftSide.append('<p>If you get an answer right you will get a point and the next color will be shown.</p>');
+    leftSide.append('<p>If you get an answer wrong you will lose a live. If you lose all lives you will get a game over and the results will show.</p>');
+    leftSide.append("<p>Results contain your score.</p>");
+    leftSide.append('<p>There is also a timer that will end the game when it reaches 0.</p>');
+    leftSide.append('<p>The difficulty will affect how many button options will be available.</p>');
+
+
     // Setup dropdown for difficulty settings.
     rightSide.append('<h4>-Settings-</h4>');
     rightSide.append("<hr class='blueLine'>");

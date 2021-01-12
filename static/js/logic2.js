@@ -140,7 +140,15 @@ function DirectionsScreen(element){
 
     leftSide.append("<h4>-Description-</h4>");
     leftSide.append("<hr class='whiteLine'>");
-    leftSide.append("<p>A Character string will appear and disapear in a few seconds. Rememeber the string and type it in the box that appears afterwards. Larger strings will be displayed after every correct answer. Wrong answers will make the strings shorter. The difficulty settings will affect how a long a string is displayed and amount of lives.</p>");
+    leftSide.append("<p>Memorize the string of characters and type them in a text box!</p>");
+    leftSide.append("<p>A string of characters will show for a few seconds and then disapear. It is your job to type that string in the textbox that appears afterwards.</p>");
+    leftSide.append("<p>If you get a correct answer then the round will go up and the next string of characters will be longer by one.</p>");
+    leftSide.append("<p>Likewise if you get one wrong the round will go down and the next string will be shorter by one (except on round one.)</p>");
+    leftSide.append("<p>If you get an answer wrong then you will lose a live. If you lose all lives you get a game over and the results will be shown.</p>");
+    leftSide.append("<p>Results contain the highest round reached.</p>");
+    leftSide.append("<p>You also have the option to skip two problems.</p>");
+    leftSide.append("<p>In the settings you can adjust the difficulty. This will affect the number of lives and how much times get added after each round.</p>");
+    leftSide.append("<p>Note that easy mode adds 2 seconds after going up a round while hard mode will make it go up by one every two rounds.</p>");
 
     // Setup dropdown for difficulty settings.
     rightSide.append('<h4>-Settings-</h4>');

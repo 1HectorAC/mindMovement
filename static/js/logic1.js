@@ -104,7 +104,11 @@ function SetupDirectionsContent(element){
     // Setup directions display.
     leftSide.append('<h4>-Description-</h4>');
     leftSide.append("<hr class='whiteLine'>");
-    leftSide.append('<p>Practice math operations with a bunch of simple math problems to solve. Just set the settings you want and remember that you will be timed so move fast.</p>');
+    leftSide.append('<p>Solve some basic math equations here!</p>');
+    leftSide.append('<p>Once you start the game a list of equations will appear and it is your job to enter the answer in the boxes next to each equation.</p>');
+    leftSide.append('<p>When you finish just hit the Done button and your results will be shown.</p>');
+    leftSide.append('<p>You will be timed so try to solve the equations fast. Your time will be shown at the end of the game.</p>');
+    leftSide.append('<p>In the settings you can set what type of operation you want and how many question you will get.</p>');
 
     // Setup setting display.
     rightSide.append('<h4>-Settings-</h4>');
