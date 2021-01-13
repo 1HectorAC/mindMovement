@@ -105,10 +105,20 @@ function SetupDirectionsContent(element){
     leftSide.append('<h4>-Description-</h4>');
     leftSide.append("<hr class='whiteLine'>");
     leftSide.append('<p>Solve some basic math equations here!</p>');
-    leftSide.append('<p>Once you start the game a list of equations will appear and it is your job to enter the answer in the boxes next to each equation.</p>');
-    leftSide.append('<p>When you finish just hit the Done button and your results will be shown.</p>');
-    leftSide.append('<p>You will be timed so try to solve the equations fast. Your time will be shown at the end of the game.</p>');
-    leftSide.append('<p>In the settings you can set what type of operation you want and how many question you will get.</p>');
+
+    // Collapsable accoridon for direction sections.
+    var accordion = $('<div id="accordion"></div>');
+    var playString = "A list of equations will appear and it is your job to enter the answer in the boxes next to each equation.";
+    CollapsableSinglePanel(accordion, "How to Play", playString, "collapse1");
+
+    var endString = "After you submit your answers you will be shown the results. At the botton of the screen there will be how many you got correct as well as how long you took. </br></br>Note: You will also be shown which equations you got right/wrong.";
+    CollapsableSinglePanel(accordion, "End of Game", endString, "collapse2");
+
+    var settingsString = "<u>Operation:</u> Set the operation that each equations will be.</br><u>Number of Questions:</u> Set the number of equations that will be generated."
+    CollapsableSinglePanel(accordion, "Settings", settingsString, "collapse3");
+
+    leftSide.append(accordion);
+
 
     // Setup setting display.
     rightSide.append('<h4>-Settings-</h4>');
@@ -154,6 +164,18 @@ function SetupGameContent(element, questions, operation){
     gameItems.append('<button id="submitAnswer" class="btn btn-primary customButton" type="submit" value="Results">Done</button>');
     gameItems.append('<p id="error" style="color:red"></p>');
     element.append(gameItems);
+}
+
+//Create a single panel collapsable panel and add it to element.
+function CollapsableSinglePanel(element, title, content, idName){
+    var titlePart = $('<div class="card-header">').append($('<a class="card-link" data-toggle="collapse" href="#'+idName+'">'+title+'</a>'));
+    var contentPart = $('<div id="'+idName+'" class="collapse" data-parent="#accordion">').append($('<div class="card-body" style="color:black">'+content+'</div>'));
+
+    var togetherPanel = $('<div class="card">');
+    togetherPanel.append(titlePart);
+    togetherPanel.append(contentPart);
+
+    element.append(togetherPanel);
 }
 
 // Return answer of passed in operation applied to two passed in numbers.
