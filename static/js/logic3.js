@@ -46,7 +46,7 @@ function Initial(){
 
 
             SetupDirDisplay($(".MainContent"), selectedColors);
-            $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Play">Play</button>');
+            $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Play">Next</button>');
 
         }
         if ($(this).attr("value") == "Play") {
@@ -93,14 +93,19 @@ function SetupStartMenu(element){
     leftSide.append("<h4>-Description-</h4>");
     leftSide.append("<hr class='whiteLine'>");
     leftSide.append('<p>Memorize the color-button association and then hit the button associated with the color that appears!</p>');
-    leftSide.append('<p>First a screen will appear showing buttons that are colored in. You should memorize what color goes with what button and then hit Play.</p>');
-    leftSide.append('<p>A colored square will appear and there will be some colorless buttons in the bottom. It is your job to hit the right button that was associated with the color shown.</p>');
-    leftSide.append('<p>If you get an answer right you will get a point and the next color will be shown.</p>');
-    leftSide.append('<p>If you get an answer wrong you will lose a live. If you lose all lives you will get a game over and the results will show.</p>');
-    leftSide.append("<p>Results contain your score.</p>");
-    leftSide.append('<p>There is also a timer that will end the game when it reaches 0.</p>');
-    leftSide.append('<p>The difficulty will affect how many button options will be available.</p>');
+ 
+   // Collapsable accoridon for direction sections.
+    var accordion = $('<div id="accordion"></div>');
+    var playString = "A bunch of buttons will appear on screen with different colors. Your first task is to remember which color goes with what button.</br></br>On the next screen there will be a colored box and a bunch of colorless buttons. It is you job to hit the right button associated with the color of the box.</br></br>If you get it right then your score will go up. If you get it wrong then you will lose a live.";
+    CollapsableSinglePanel(accordion, "How to Play", playString, "collapse1");
 
+    var endString = "After all lives are gone or time runs out, you will be shown the results. The results will display your score.";
+    CollapsableSinglePanel(accordion, "End of Game", endString, "collapse2");
+
+    var settingsString = "<u>Difficulty:</u> This will affect how many buttons you can press."
+    CollapsableSinglePanel(accordion, "Settings", settingsString, "collapse3");
+
+    leftSide.append(accordion);
 
     // Setup dropdown for difficulty settings.
     rightSide.append('<h4>-Settings-</h4>');
@@ -112,13 +117,25 @@ function SetupStartMenu(element){
     rightSide.append(selectSection);
 
     rightSide.append("<hr>");
-    rightSide.append('<button type="submit" class="btn btn-primary customButton" value="ColorDisplay">Next</button>');
+    rightSide.append('<button type="submit" class="btn btn-primary customButton" value="ColorDisplay">Play</button>');
 
     // Add both left and right side items to screen.
     var row = $('<div class="row"></div');
     row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(leftSide));
     row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(rightSide));
     element.append(row);
+}
+
+//Create a single panel collapsable panel and add it to element.
+function CollapsableSinglePanel(element, title, content, idName){
+    var titlePart = $('<div class="card-header">').append($('<a class="card-link" data-toggle="collapse" href="#'+idName+'">'+title+'</a>'));
+    var contentPart = $('<div id="'+idName+'" class="collapse" data-parent="#accordion">').append($('<div class="card-body" style="color:black">'+content+'</div>'));
+
+    var togetherPanel = $('<div class="card">');
+    togetherPanel.append(titlePart);
+    togetherPanel.append(contentPart);
+
+    element.append(togetherPanel);
 }
 
 // Setup the display for directional color association.

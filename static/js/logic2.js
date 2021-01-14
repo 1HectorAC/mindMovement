@@ -47,7 +47,7 @@ $("body").on('click', 'button', function(ev) {
 
         var gameVars = $("<div id='gameVars' class='row'>");
         gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
-        gameVars.append("<div class='offset-md-8 col-md-2'>Level:<br><p id='round'>" + round + "</p></div>");
+        gameVars.append("<div class='offset-md-8 col-md-2'>Round:<br><p id='round'>" + round + "</p></div>");
         $(".MainContent").append(gameVars);
         $(".MainContent").append('<hr>');        
 
@@ -113,7 +113,7 @@ $("body").on('click', 'button', function(ev) {
         // Reset display variables.
         var gameVars = $("<div id='gameVars' class='row'>");
         gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
-        gameVars.append("<div class='offset-md-8 col-md-2'>Level:<br><p id='round'>" + round + "</p></div>");
+        gameVars.append("<div class='offset-md-8 col-md-2'>Round:<br><p id='round'>" + round + "</p></div>");
         $(".MainContent").append(gameVars);
         $(".MainContent").append('<hr>');
 
@@ -140,15 +140,20 @@ function DirectionsScreen(element){
 
     leftSide.append("<h4>-Description-</h4>");
     leftSide.append("<hr class='whiteLine'>");
-    leftSide.append("<p>Memorize the string of characters and type them in a text box!</p>");
-    leftSide.append("<p>A string of characters will show for a few seconds and then disapear. It is your job to type that string in the textbox that appears afterwards.</p>");
-    leftSide.append("<p>If you get a correct answer then the round will go up and the next string of characters will be longer by one.</p>");
-    leftSide.append("<p>Likewise if you get one wrong the round will go down and the next string will be shorter by one (except on round one.)</p>");
-    leftSide.append("<p>If you get an answer wrong then you will lose a live. If you lose all lives you get a game over and the results will be shown.</p>");
-    leftSide.append("<p>Results contain the highest round reached.</p>");
-    leftSide.append("<p>You also have the option to skip two problems.</p>");
-    leftSide.append("<p>In the settings you can adjust the difficulty. This will affect the number of lives and how much times get added after each round.</p>");
-    leftSide.append("<p>Note that easy mode adds 2 seconds after going up a round while hard mode will make it go up by one every two rounds.</p>");
+    leftSide.append("<p>Memorize the string of characters and type it into the text box!</p>");
+ 
+    // Collapsable accoridon for direction sections.
+    var accordion = $('<div id="accordion"></div>');
+    var playString = "A string of characters and a countdown will appear. When the countdown reaches 0 the string will be gone and a text box will appear.</br></br> It is your job to type the string of characters shown before.</br></br>If you get it right then the round will go up. If you get it wrong then you will lose a live and go down a round (assuming it isn't round 1.)</br></br>Note: Length of the string will depend on the round. You also get 2 skips to generate a different string.";
+    CollapsableSinglePanel(accordion, "How to Play", playString, "collapse1");
+
+    var endString = "After all lives are gone you will be shown the results. The results will display the highest round you reached.";
+    CollapsableSinglePanel(accordion, "End of Game", endString, "collapse2");
+
+    var settingsString = "<u>Difficulty:</u> This will affect the number of lives and how fast the time you get to memorize the string will increase after each round."
+    CollapsableSinglePanel(accordion, "Settings", settingsString, "collapse3");
+
+    leftSide.append(accordion);
 
     // Setup dropdown for difficulty settings.
     rightSide.append('<h4>-Settings-</h4>');
@@ -167,6 +172,18 @@ function DirectionsScreen(element){
     row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(leftSide));
     row.append($('<div class="col-md-6"></div>').append('<div class="container"></div>').append(rightSide));
     element.append(row);
+}
+
+//Create a single panel collapsable panel and add it to element.
+function CollapsableSinglePanel(element, title, content, idName){
+    var titlePart = $('<div class="card-header">').append($('<a class="card-link" data-toggle="collapse" href="#'+idName+'">'+title+'</a>'));
+    var contentPart = $('<div id="'+idName+'" class="collapse" data-parent="#accordion">').append($('<div class="card-body" style="color:black">'+content+'</div>'));
+
+    var togetherPanel = $('<div class="card">');
+    togetherPanel.append(titlePart);
+    togetherPanel.append(contentPart);
+
+    element.append(togetherPanel);
 }
 
 // Setup screen for temporary string display. This includes timer to start next part.
