@@ -45,9 +45,9 @@ $("body").on('click', 'button', function(ev) {
         round = 1;
         hightestRound = round;
 
-        var gameVars = $("<div id='gameVars' class='row'>");
-        gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
-        gameVars.append("<div class='offset-md-8 col-md-2'>Round:<br><p id='round'>" + round + "</p></div>");
+        var gameVars = $("<div id='gameVars'>");
+        gameVars.append("<div style='width:50%; display: inline-block;'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
+        gameVars.append("<div style='width:49%; display: inline-block;'>Round:<br><p id='round'>" + round + "</p></div>");
         $(".MainContent").append(gameVars);
         $(".MainContent").append('<hr>');        
 

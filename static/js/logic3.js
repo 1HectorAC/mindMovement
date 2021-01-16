@@ -227,11 +227,13 @@ function PlayGame(){
     countDownTime = maxCountDownTime;
 
     // Setup variables to display.
-    var gameVars = $("<div id='gameVars' class='row'>");
-    gameVars.append("<div class='col-md-2'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
-    gameVars.append("<div class='offset-md-3 col-md-2'>Time:<br><p id ='timer'>" + countDownTime + "</p></div>");
-    gameVars.append("<div class='offset-md-3 col-md-2'>Score:<br><p id='score'>" + score + "</p></div>");
+    var gameVars = $("<div id='gameVars'>");
+    gameVars.append("<div style='width:33%; display: inline-block;'>Lives:<br><p id='lives'>"+ lives + "</p></div>");
+    gameVars.append("<div style='width:33%; display: inline-block;'>Time:<br><p id ='timer'>" + countDownTime + "</p></div>");
+    gameVars.append("<div style='width:33%; display: inline-block;'>Score:<br><p id='score'>" + score + "</p></div>");
+    
     $(".MainContent").append(gameVars);
+    $(".MainContent").append("<hr>");
     $(".MainContent").append("<p id='hitIndicator' style='font-size: 20px'></p>");
 
     // Display Box.
@@ -292,7 +294,6 @@ function CheckColor(num){
         $("#lives").text(lives);
         $("#hitIndicator").css("color", "red");
         $("#hitIndicator").text("Miss.");
-
     }
 
     // Set new value for the color variable.
@@ -312,7 +313,6 @@ function EndGame(){
         $(".MainContent").append("</br>");
         $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="PlayAgain">Play Again</button>');
         $(".MainContent").append('<button type="submit" class="btn btn-primary customButton" value="Directions">Directions</button>');
-
 }
 
 // Move timer down by 1 and update display. Also clear time if reach 0.
