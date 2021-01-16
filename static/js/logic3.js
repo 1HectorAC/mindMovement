@@ -163,36 +163,36 @@ function SetupDirDisplay(element, displayColors){
 
     if(arrayLength == 4){
         // The first row. (top)
-        var c1 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+'; text-align:center;border-radius: 15px; "><p>Up</p></div>');
+        var c1 = $('<div class="col-md-2 offset-md-5 colorButtonBox", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+';"><p>Up</p></div>');
         row1.append(c1);
 
         // The second row. (center)
-        var c2 = $('<div class="col-md-2 offset-md-3", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+'; text-align:center;border-radius: 15px"><p>Left</p></div>');
-        var c2_2 = $('<div class="col-md-2 offset-md-2", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+';text-align:center;border-radius: 15px "><p>Right</p></div>');
+        var c2 = $('<div class="col-md-2 offset-md-3 colorButtonBox", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+';"><p>Left</p></div>');
+        var c2_2 = $('<div class="col-md-2 offset-md-2 colorButtonBox", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+'"><p>Right</p></div>');
         row2.append(c2);
         row2.append(c2_2);
 
         // The bottom row. (bottom)
-        var c3 = $('<div class="col-md-2 offset-md-5", style= "background-color: '+displayColors[3]+'; color:'+textColor[3]+'; text-align:center;border-radius: 15px "><p>Down</p></div>');
+        var c3 = $('<div class="col-md-2 offset-md-5 colorButtonBox", style= "background-color: '+displayColors[3]+'; color:'+textColor[3]+'"><p>Down</p></div>');
         row3.append(c3);
     }
     else{
         // The first row. (top)
-        var c1 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+'; text-align:center;border-radius: 15px; "><p>Upper Left</p></div>');
-        var c1_2 = $('<div class="col-md-2", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+'; text-align:center;border-radius: 15px"><p>Upper Right</p></div>');
+        var c1 = $('<div class="col-md-2 offset-md-4 colorButtonBox", style= "background-color: '+displayColors[0]+'; color:'+textColor[0]+';"><p>Upper Left</p></div>');
+        var c1_2 = $('<div class="col-md-2 colorButtonBox", style= "background-color: '+displayColors[1]+'; color: '+textColor[1]+';"><p>Upper Right</p></div>');
         row1.append(c1);
         row1.append(c1_2);
 
         // The second row. (center)
-        var c2 = $('<div class="col-md-2 offset-md-2", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+';text-align:center;border-radius: 15px "><p>Left</p></div>');
-        var c2_2 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[3]+'; color: '+textColor[3]+';text-align:center;border-radius: 15px "><p>Right</p></div>');
+        var c2 = $('<div class="col-md-2 offset-md-2 colorButtonBox", style= "background-color: '+displayColors[2]+'; color: '+textColor[2]+';"><p>Left</p></div>');
+        var c2_2 = $('<div class="col-md-2 offset-md-4 colorButtonBox", style= "background-color: '+displayColors[3]+'; color: '+textColor[3]+';"><p>Right</p></div>');
 
         row2.append(c2);
         row2.append(c2_2);
 
         // The bottom row. (bottom)
-        var c3 = $('<div class="col-md-2 offset-md-4", style= "background-color: '+displayColors[4]+'; color:'+textColor[4]+'; text-align:center;border-radius: 15px "><p>Lower left</p></div>');
-        var c3_2 = $('<div class="col-md-2", style= "background-color: '+displayColors[5]+'; color: '+textColor[5]+';text-align:center;border-radius: 15px "><p>Lower Right</p></div>');
+        var c3 = $('<div class="col-md-2 offset-md-4 colorButtonBox", style= "background-color: '+displayColors[4]+'; color:'+textColor[4]+';"><p>Lower left</p></div>');
+        var c3_2 = $('<div class="col-md-2 colorButtonBox", style= "background-color: '+displayColors[5]+'; color: '+textColor[5]+';"><p>Lower Right</p></div>');
 
         row3.append(c3);
         row3.append(c3_2);
@@ -346,36 +346,36 @@ function SetupDirectionButtons(element, size){
 
     if(size == 4){
         // The first row. (top)
-        var c1 = $('<button type="submit" class="col-md-2 offset-md-5 btn btn-dark" value="Button1">Up</button>');
+        var c1 = $('<button type="submit" class="col-md-2 offset-md-5 btn btn-dark colorButtonBox" value="Button1">Up</button>');
         row1.append(c1);
 
         // The second row. (center)
-        var c2 = $('<button type="submit"  class="col-md-2 offset-md-3 btn btn-dark" value="Button2">Left</button>');
-        var c2_2 = $('<button type="submit"  class="col-md-2 offset-md-2 btn btn-dark" value="Button3">Right</button>');
+        var c2 = $('<button type="submit"  class="col-md-2 offset-md-3 btn btn-dark colorButtonBox" value="Button2">Left</button>');
+        var c2_2 = $('<button type="submit"  class="col-md-2 offset-md-2 btn btn-dark colorButtonBox" value="Button3">Right</button>');
         row2.append(c2);
         row2.append(c2_2);
 
         // The bottom row. (bottom)
-        var c3 = $('<button type="submit"  class="col-md-2 offset-md-5 btn btn-dark" value="Button4">Down</button>');
+        var c3 = $('<button type="submit"  class="col-md-2 offset-md-5 btn btn-dark colorButtonBox" value="Button4">Down</button>');
         row3.append(c3);
     }
     else{
         // The first row. (top)
-        var c1 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button1">Upper Left</button>');
-        var c1_2 = $('<button type="submit" class="col-md-2 btn btn-dark" value="Button2">Upper Right</button>');
+        var c1 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark colorButtonBox" value="Button1">Upper Left</button>');
+        var c1_2 = $('<button type="submit" class="col-md-2 btn btn-dark colorButtonBox" value="Button2">Upper Right</button>');
         row1.append(c1);
         row1.append(c1_2);
 
         // The second row. (center)
-        var c2 = $('<button type="submit" class="col-md-2 offset-md-2 btn btn-dark" value="Button3">Left</button>');
-        var c2_2 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button4">Right</button>');
+        var c2 = $('<button type="submit" class="col-md-2 offset-md-2 btn btn-dark colorButtonBox" value="Button3">Left</button>');
+        var c2_2 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark colorButtonBox" value="Button4">Right</button>');
 
         row2.append(c2);
         row2.append(c2_2);
 
         // The bottom row. (bottom)
-        var c3 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark" value="Button5">LowerLeft</button>');
-        var c3_2 = $('<button type="submit" class="col-md-2 btn btn-dark" value="Button6">LowerRight</button>');
+        var c3 = $('<button type="submit" class="col-md-2 offset-md-4 btn btn-dark colorButtonBox" value="Button5">Lower Left</button>');
+        var c3_2 = $('<button type="submit" class="col-md-2 btn btn-dark colorButtonBox" value="Button6">Lower Right</button>');
 
         row3.append(c3);
         row3.append(c3_2);
